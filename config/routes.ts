@@ -40,6 +40,7 @@
     name: 'list.table-list',
     icon: 'table',
     path: '/list',
+    access: 'canAdmin',
     component: './TableList',
   },
   {
