@@ -77,13 +77,13 @@ function getRule(req: Request, res: Response, u: string) {
     dataSource = dataSource.filter((data) => data?.name?.includes(params.name || ''));
   }
 
-  dataSource = [...dataSource].slice(
+  const finalDataSource = [...dataSource].slice(
     ((current as number) - 1) * (pageSize as number),
     (current as number) * (pageSize as number),
   );
   const result = {
-    data: dataSource,
-    total: tableListDataSource.length,
+    data: finalDataSource,
+    total: dataSource.length,
     success: true,
     pageSize,
     current: parseInt(`${params.currentPage}`, 10) || 1,
