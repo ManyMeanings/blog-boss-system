@@ -11,20 +11,10 @@ const genList = (current: number, pageSize: number) => {
     const index = (current - 1) * 10 + i;
     tableListDataSource.push({
       key: index,
-      disabled: i % 6 === 0,
-      href: 'https://ant.design',
-      avatar: [
-        'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-        'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
-      ][i % 2],
-      name: `TradeCode ${index}`,
-      owner: '曲丽丽',
-      desc: '这是一段描述',
-      callNo: Math.floor(Math.random() * 1000),
-      status: Math.floor(Math.random() * 10) % 4,
-      updatedAt: moment().format('YYYY-MM-DD'),
-      createdAt: moment().format('YYYY-MM-DD'),
-      progress: Math.ceil(Math.random() * 100),
+      name: `user ${index}`,
+      status: Math.floor(Math.random() * 2),
+      lastLoginAt: moment().format('YYYY-MM-DD HH:MM:SS'),
+      activity: Math.ceil(Math.random() * 100),
     });
   }
   tableListDataSource.reverse();
@@ -120,22 +110,12 @@ function postRule(req: Request, res: Response, u: string, b: Request) {
       break;
     case 'post':
       (() => {
-        const i = Math.ceil(Math.random() * 10000);
         const newRule: API.RuleListItem = {
           key: tableListDataSource.length,
-          href: 'https://ant.design',
-          avatar: [
-            'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-            'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
-          ][i % 2],
           name,
-          owner: '曲丽丽',
-          desc,
-          callNo: Math.floor(Math.random() * 1000),
-          status: Math.floor(Math.random() * 10) % 2,
-          updatedAt: moment().format('YYYY-MM-DD'),
-          createdAt: moment().format('YYYY-MM-DD'),
-          progress: Math.ceil(Math.random() * 100),
+          status: 0,
+          lastLoginAt: moment().format('YYYY-MM-DD HH:MM:SS'),
+          activity: 15,
         };
         tableListDataSource.unshift(newRule);
         return res.json(newRule);

@@ -35,18 +35,11 @@ declare namespace API {
   };
 
   type RuleListItem = {
-    key?: number;
-    disabled?: boolean;
-    href?: string;
-    avatar?: string;
+    key: number;
     name?: string;
-    owner?: string;
-    desc?: string;
-    callNo?: number;
     status?: number;
-    updatedAt?: string;
-    createdAt?: string;
-    progress?: number;
+    lastLoginAt?: string;
+    activity?: number;
   };
 
   type RuleList = {
