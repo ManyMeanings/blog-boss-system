@@ -34,6 +34,18 @@ declare namespace API {
     pageSize?: number;
   };
 
+  type TableListParams = {
+    key?: number;
+    name?: string;
+    status?: number;
+    lastLoginAt?: string;
+    activity?: number;
+    pageSize?: number;
+    currentPage?: number;
+    filter?: Record<string, any[]>;
+    sorter?: Record<string, any>;
+  };
+
   type RuleListItem = {
     key: number;
     name?: string;

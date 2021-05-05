@@ -39,45 +39,41 @@ export async function getNotices(options?: { [key: string]: any }) {
 }
 
 /** 获取规则列表 GET /api/rule */
-export async function rule(
-  params: {
-    // query
-    /** 当前的页码 */
-    current?: number;
-    /** 页面的容量 */
-    pageSize?: number;
-  },
-  options?: { [key: string]: any },
-) {
-  return request<API.RuleList>('/api/rule', {
-    method: 'GET',
-    params: {
-      ...params,
-    },
-    ...(options || {}),
+export async function queryRule(params?: { [key: string]: any }) {
+  return request('/api/rule', {
+    params,
   });
 }
 
 /** 新建规则 PUT /api/rule */
-export async function updateRule(options?: { [key: string]: any }) {
-  return request<API.RuleListItem>('/api/rule', {
-    method: 'PUT',
-    ...(options || {}),
+export async function updateRule(params?: { [key: string]: any }) {
+  return request('/api/rule', {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'update',
+    },
   });
 }
 
 /** 新建规则 POST /api/rule */
-export async function addRule(options?: { [key: string]: any }) {
-  return request<API.RuleListItem>('/api/rule', {
+export async function addRule(params?: { [key: string]: any }) {
+  return request('/api/rule', {
     method: 'POST',
-    ...(options || {}),
+    data: {
+      ...params,
+      method: 'post',
+    },
   });
 }
 
 /** 删除规则 DELETE /api/rule */
-export async function removeRule(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/rule', {
-    method: 'DELETE',
-    ...(options || {}),
+export async function removeRule(params: { key: number[] }) {
+  return request('/api/rule', {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'delete',
+    },
   });
 }

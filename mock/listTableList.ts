@@ -29,16 +29,9 @@ function getRule(req: Request, res: Response, u: string) {
     realUrl = req.url;
   }
   const { current = 1, pageSize = 10 } = req.query;
-  const params = (parse(realUrl, true).query as unknown) as API.PageParams &
-    API.RuleListItem & {
-      sorter: any;
-      filter: any;
-    };
+  const params = (parse(realUrl, true).query as unknown) as API.TableListParams;
 
-  let dataSource = [...tableListDataSource].slice(
-    ((current as number) - 1) * (pageSize as number),
-    (current as number) * (pageSize as number),
-  );
+  let dataSource = tableListDataSource;
   const sorter = JSON.parse(params.sorter || ('{}' as any));
   if (sorter) {
     dataSource = dataSource.sort((prev, next) => {
@@ -83,12 +76,17 @@ function getRule(req: Request, res: Response, u: string) {
   if (params.name) {
     dataSource = dataSource.filter((data) => data?.name?.includes(params.name || ''));
   }
+
+  dataSource = [...dataSource].slice(
+    ((current as number) - 1) * (pageSize as number),
+    (current as number) * (pageSize as number),
+  );
   const result = {
     data: dataSource,
     total: tableListDataSource.length,
     success: true,
     pageSize,
-    current: parseInt(`${params.current}`, 10) || 1,
+    current: parseInt(`${params.currentPage}`, 10) || 1,
   };
 
   return res.json(result);
@@ -101,7 +99,7 @@ function postRule(req: Request, res: Response, u: string, b: Request) {
   }
 
   const body = (b && b.body) || req.body;
-  const { method, name, desc, key } = body;
+  const { method, name, key } = body;
 
   switch (method) {
     /* eslint no-case-declarations:0 */
@@ -127,8 +125,8 @@ function postRule(req: Request, res: Response, u: string, b: Request) {
         let newRule = {};
         tableListDataSource = tableListDataSource.map((item) => {
           if (item.key === key) {
-            newRule = { ...item, desc, name };
-            return { ...item, desc, name };
+            newRule = { ...item, name };
+            return { ...item, name };
           }
           return item;
         });

@@ -5,7 +5,8 @@ import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText } from '@ant-design/pro-form';
-import { rule, addRule, removeRule } from '@/services/ant-design-pro/api';
+import UpdateForm from './components/UpdateForm';
+import { queryRule, updateRule, addRule, removeRule } from '@/services/ant-design-pro/api';
 /**
  * 添加节点
  *
@@ -51,11 +52,36 @@ const handleRemove = async (selectedRows: API.RuleListItem[]) => {
   }
 };
 
+/**
+ * 更新节点
+ *
+ * @param fields
+ */
+const handleUpdate = async (fields: API.TableListParams) => {
+  const hide = message.loading('正在修改');
+  try {
+    await updateRule({
+      name: fields.name,
+      key: fields.key,
+    });
+    hide();
+
+    message.success('配置成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('配置失败请重试！');
+    return false;
+  }
+};
+
 const TableList: React.FC = () => {
   /** 新建窗口的弹窗 */
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.RuleListItem>();
+  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
 
   const columns: ProColumns<API.RuleListItem>[] = [
     {
@@ -67,6 +93,7 @@ const TableList: React.FC = () => {
       dataIndex: 'status',
       filters: true,
       search: false,
+      hideInForm: true,
       valueEnum: {
         0: {
           text: '在线',
@@ -82,13 +109,15 @@ const TableList: React.FC = () => {
       title: '上次登陆时间',
       sorter: true,
       dataIndex: 'lastLoginAt',
-      valueType: 'dateTime',
+      hideInForm: true,
+      valueType: 'date',
       search: false,
     },
     {
       title: '活跃度',
       sorter: true,
       dataIndex: 'activity',
+      hideInForm: true,
       valueType: 'progress',
       search: false,
     },
@@ -96,14 +125,24 @@ const TableList: React.FC = () => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
-      render: (text, record, _, action) => [
+      render: (_, record) => [
         <a
-          key="editable"
+          key="config"
           onClick={() => {
-            action?.startEditable?.(record.key);
+            setCurrentRow(record);
+            handleUpdateModalVisible(true);
           }}
         >
           修改
+        </a>,
+        <a
+          key="config"
+          onClick={() => {
+            handleRemove([{ key: record.key }]);
+            actionRef.current?.reloadAndRest?.();
+          }}
+        >
+          删除
         </a>,
       ],
     },
@@ -117,9 +156,6 @@ const TableList: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
-        editable={{
-          type: 'multiple',
-        }}
         toolBarRender={() => [
           <Button
             type="primary"
@@ -131,7 +167,7 @@ const TableList: React.FC = () => {
             <PlusOutlined /> 新建
           </Button>,
         ]}
-        request={rule}
+        request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -156,6 +192,7 @@ const TableList: React.FC = () => {
           }
         >
           <Button
+            type="primary"
             onClick={async () => {
               await handleRemove(selectedRowsState);
               setSelectedRows([]);
@@ -192,8 +229,29 @@ const TableList: React.FC = () => {
           ]}
           width="md"
           name="name"
+          label="用户名"
         />
       </ModalForm>
+      {currentRow && Object.keys(currentRow).length ? (
+        <UpdateForm
+          onSubmit={async (value) => {
+            const success = await handleUpdate(value);
+            if (success) {
+              handleUpdateModalVisible(false);
+              setCurrentRow(undefined);
+              if (actionRef.current) {
+                actionRef.current.reload();
+              }
+            }
+          }}
+          onCancel={() => {
+            handleUpdateModalVisible(false);
+            setCurrentRow(undefined);
+          }}
+          updateModalVisible={updateModalVisible}
+          values={currentRow || {}}
+        />
+      ) : null}
     </PageContainer>
   );
 };
