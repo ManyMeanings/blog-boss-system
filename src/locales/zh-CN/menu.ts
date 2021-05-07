@@ -1,4 +1,9 @@
 export default {
+  'menu.list.user': '用户表格',
+  'menu.list.article': '文章表格',
+  'menu.dashboard.analysis': '分析图表',
+  'menu.dashboard.monitor': '监控图表',
+
   'menu.welcome': '欢迎',
   'menu.more-blocks': '更多区块',
   'menu.home': '首页',
@@ -8,8 +13,6 @@ export default {
   'menu.register': '注册',
   'menu.register.result': '注册结果',
   'menu.dashboard': 'Dashboard',
-  'menu.dashboard.analysis': '分析页',
-  'menu.dashboard.monitor': '监控页',
   'menu.dashboard.workplace': '工作台',
   'menu.exception.403': '403',
   'menu.exception.404': '404',
