@@ -3,6 +3,7 @@ export default {
   'menu.list.article': '文章表格',
   'menu.dashboard.analysis': '分析图表',
   'menu.dashboard.monitor': '监控图表',
+  'menu.detail': '文章内容',
 
   'menu.welcome': '欢迎',
   'menu.more-blocks': '更多区块',

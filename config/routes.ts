@@ -44,6 +44,14 @@
     component: './article',
   },
   {
+    name: 'detail',
+    icon: 'smile',
+    path: '/detail',
+    access: 'canAdmin',
+    hideInMenu:true,
+    component: './detail',
+  },
+  {
     path: '/',
     redirect: '/analysis',
   },

@@ -105,7 +105,7 @@ function postArticle(req: Request, res: Response, u: string, b: Request) {
   }
 
   const body = (b && b.body) || req.body;
-  const { method, title, key, type } = body;
+  const { method, title, key, type, content } = body;
 
   switch (method) {
     /* eslint no-case-declarations:0 */
@@ -121,6 +121,7 @@ function postArticle(req: Request, res: Response, u: string, b: Request) {
           type,
           views: 0,
           lastModifyAt: moment().format('YYYY-MM-DD HH:MM:SS'),
+          content,
         };
         tableListDataSource.unshift(newArticle);
         return res.json(newArticle);
@@ -132,8 +133,8 @@ function postArticle(req: Request, res: Response, u: string, b: Request) {
         let newArticle = {};
         tableListDataSource = tableListDataSource.map((item) => {
           if (item.key === key) {
-            newArticle = { ...item, title, type };
-            return { ...item, title, type };
+            newArticle = { ...item, title, type, content };
+            return { ...item, title, type, content };
           }
           return item;
         });

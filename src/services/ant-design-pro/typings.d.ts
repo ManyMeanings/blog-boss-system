@@ -70,12 +70,12 @@ declare namespace API {
 
   type ArticleListItem = {
     key: number;
-    title?: string;
+    title: string;
     author?: string;
     type?: string;
     views?: number;
     lastModifyAt?: string;
-    content?: string;
+    content: string;
   };
 
   type RuleList = {

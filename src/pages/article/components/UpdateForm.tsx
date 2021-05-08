@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Modal, Input, Select } from 'antd';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 export interface UpdateFormProps {
   onCancel: (flag?: boolean, formVals?: API.ArticleListParams) => void;
@@ -23,10 +25,13 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
     updateModalVisible,
     values,
   } = props;
+  // @ts-ignore
+  const [text, handleText] = useState<string>(props.values.content);
 
   const submit = async () => {
     const fieldsValue = await form.validateFields();
-    handleUpdate({ ...values, ...fieldsValue });
+    const content = {content: text};
+    handleUpdate({ ...values, ...fieldsValue, ...content });
   };
 
   const renderContent = () => {
@@ -59,6 +64,9 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             <Select.Option value="1">转载</Select.Option>
           </Select>
         </FormItem>
+        <FormItem label="内容">
+          <ReactQuill value={text} onChange={handleText} />
+        </FormItem>
       </>
     );
   };
@@ -76,8 +84,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
 
   return (
     <Modal
-      width={640}
-      bodyStyle={{ padding: '32px 40px 48px' }}
+      width={750}
+      bodyStyle={{ padding: '30px' }}
       title="修改"
       visible={updateModalVisible}
       footer={renderFooter()}

@@ -6,6 +6,8 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import UpdateForm from './components/UpdateForm';
 import CreateForm from './components/CreateForm';
+import { history } from 'umi';
+
 import {
   queryArticle,
   updateArticle,
@@ -68,6 +70,7 @@ const handleUpdate = async (fields: API.ArticleListParams) => {
     await updateArticle({
       title: fields.title,
       type: fields.type,
+      content: fields.content,
       key: fields.key,
     });
     hide();
@@ -93,6 +96,21 @@ const ArticleTableList: React.FC = () => {
     {
       title: '标题',
       dataIndex: 'title',
+      render: (_, record) => [
+        <a
+          onClick={() => {
+            history.push({
+              pathname: '/detail',
+              query: {
+                title: record.title.toString(),
+                content: record.content.toString(),
+              },
+            });
+          }}
+        >
+          {record.title}
+        </a>,
+      ],
     },
     {
       title: '作者',
@@ -155,6 +173,7 @@ const ArticleTableList: React.FC = () => {
         <a
           key="config"
           onClick={() => {
+            // @ts-ignore
             handleRemove([{ key: record.key }]);
             actionRef.current?.reloadAndRest?.();
           }}

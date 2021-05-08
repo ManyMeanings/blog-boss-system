@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Button, Modal, Input, Select } from 'antd';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-export interface UpdateFormProps {
+export interface CreateFormProps {
   onCancel: (flag?: boolean, formVals?: API.ArticleListParams) => void;
   onSubmit: (values: API.ArticleListParams) => void;
   createModalVisible: boolean;
@@ -13,14 +15,17 @@ const formLayout = {
   wrapperCol: { span: 13 },
 };
 
-const UpdateForm: React.FC<UpdateFormProps> = (props) => {
+const CreateForm: React.FC<CreateFormProps> = (props) => {
   const [form] = Form.useForm();
 
   const { onSubmit: handleCreate, onCancel: handleModalVisible, createModalVisible } = props;
 
+  const [text, handleText] = useState<string>('');
+
   const submit = async () => {
     const fieldsValue = await form.validateFields();
-    handleCreate({ ...fieldsValue });
+    const content = {content: text};
+    handleCreate({ ...fieldsValue, ...content });
   };
 
   const renderContent = () => {
@@ -54,6 +59,11 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
             <Select.Option value="1">转载</Select.Option>
           </Select>
         </FormItem>
+        <FormItem
+          label="内容"
+        >
+          <ReactQuill value={text} onChange={handleText} />
+        </FormItem>
       </>
     );
   };
@@ -71,8 +81,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
 
   return (
     <Modal
-      width={640}
-      bodyStyle={{ padding: '32px 40px 48px' }}
+      width={750}
+      bodyStyle={{ padding: '30px' }}
       title="创建文章"
       visible={createModalVisible}
       footer={renderFooter()}
@@ -86,4 +96,4 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
   );
 };
 
-export default UpdateForm;
+export default CreateForm;
