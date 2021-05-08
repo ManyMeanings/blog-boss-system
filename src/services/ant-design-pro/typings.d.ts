@@ -54,6 +54,30 @@ declare namespace API {
     activity?: number;
   };
 
+  type ArticleListParams = {
+    key?: number;
+    title?: string;
+    author?: string;
+    type?: string;
+    views?: number;
+    lastModifyAt?: string;
+    content?: string;
+    pageSize?: number;
+    currentPage?: number;
+    filter?: Record<string, any[]>;
+    sorter?: Record<string, any>;
+  };
+
+  type ArticleListItem = {
+    key: number;
+    title?: string;
+    author?: string;
+    type?: string;
+    views?: number;
+    lastModifyAt?: string;
+    content?: string;
+  };
+
   type RuleList = {
     data?: RuleListItem[];
     /** 列表的内容总数 */

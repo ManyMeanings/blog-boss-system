@@ -77,3 +77,43 @@ export async function removeRule(params: { key: number[] }) {
     },
   });
 }
+
+/** 获取文章列表 GET /api/rule */
+export async function queryArticle(params?: { [key: string]: any }) {
+  return request('/api/article', {
+    params,
+  });
+}
+
+/** 新建文章 PUT /api/rule */
+export async function updateArticle(params?: { [key: string]: any }) {
+  return request('/api/article', {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'update',
+    },
+  });
+}
+
+/** 新建文章 POST /api/rule */
+export async function addArticle(params?: { [key: string]: any }) {
+  return request('/api/article', {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'post',
+    },
+  });
+}
+
+/** 删除文章 DELETE /api/rule */
+export async function removeArticle(params: { key: number[] }) {
+  return request('/api/article', {
+    method: 'POST',
+    data: {
+      ...params,
+      method: 'delete',
+    },
+  });
+}

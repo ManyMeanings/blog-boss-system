@@ -4,20 +4,25 @@ import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText } from '@ant-design/pro-form';
 import UpdateForm from './components/UpdateForm';
-import { queryRule, updateRule, addRule, removeRule } from '@/services/ant-design-pro/api';
+import CreateForm from './components/CreateForm';
+import {
+  queryArticle,
+  updateArticle,
+  addArticle,
+  removeArticle,
+} from '@/services/ant-design-pro/api';
 /**
  * 添加节点
  *
  * @param fields
  */
 
-const handleAdd = async (fields: API.RuleListItem) => {
+const handleAdd = async (fields: API.ArticleListParams) => {
   const hide = message.loading('正在添加');
 
   try {
-    await addRule({ ...fields });
+    await addArticle({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -34,12 +39,12 @@ const handleAdd = async (fields: API.RuleListItem) => {
  * @param selectedRows
  */
 
-const handleRemove = async (selectedRows: API.RuleListItem[]) => {
+const handleRemove = async (selectedRows: API.ArticleListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
 
   try {
-    await removeRule({
+    await removeArticle({
       key: selectedRows.map((row) => row.key),
     });
     hide();
@@ -57,11 +62,12 @@ const handleRemove = async (selectedRows: API.RuleListItem[]) => {
  *
  * @param fields
  */
-const handleUpdate = async (fields: API.TableListParams) => {
+const handleUpdate = async (fields: API.ArticleListParams) => {
   const hide = message.loading('正在修改');
   try {
-    await updateRule({
-      name: fields.name,
+    await updateArticle({
+      title: fields.title,
+      type: fields.type,
       key: fields.key,
     });
     hide();
@@ -79,47 +85,58 @@ const ArticleTableList: React.FC = () => {
   /** 新建窗口的弹窗 */
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([]);
-  const [currentRow, setCurrentRow] = useState<API.RuleListItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.ArticleListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.ArticleListItem>();
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
 
-  const columns: ProColumns<API.RuleListItem>[] = [
+  const columns: ProColumns<API.ArticleListItem>[] = [
     {
-      title: '用户名',
-      dataIndex: 'name',
+      title: '标题',
+      dataIndex: 'title',
     },
     {
-      title: '状态',
-      dataIndex: 'status',
+      title: '作者',
+      dataIndex: 'author',
+      hideInForm: true,
+    },
+    {
+      title: '类别',
+      dataIndex: 'type',
       filters: true,
       search: false,
       hideInForm: true,
       valueEnum: {
-        0: {
-          text: '在线',
+        '0': {
+          text: '原创',
           status: 'Processing',
         },
-        1: {
-          text: '离线',
-          status: 'Error',
+        '1': {
+          text: '转载',
+          status: 'Default',
         },
       },
     },
     {
-      title: '上次登陆时间',
+      title: '浏览量',
       sorter: true,
-      dataIndex: 'lastLoginAt',
+      dataIndex: 'views',
       hideInForm: true,
-      valueType: 'date',
       search: false,
     },
     {
-      title: '活跃度',
+      title: '上次修改时间',
       sorter: true,
-      dataIndex: 'activity',
+      dataIndex: 'lastModifyAt',
       hideInForm: true,
-      valueType: 'progress',
       search: false,
+    },
+    {
+      title: '内容',
+      sorter: true,
+      dataIndex: 'content',
+      hideInForm: true,
+      search: false,
+      hideInTable: true,
     },
     {
       title: '操作',
@@ -149,8 +166,8 @@ const ArticleTableList: React.FC = () => {
   ];
   return (
     <PageContainer>
-      <ProTable<API.RuleListItem, API.PageParams>
-        headerTitle="用户表格"
+      <ProTable<API.ArticleListItem, API.PageParams>
+        headerTitle="文章表格"
         actionRef={actionRef}
         rowKey="key"
         search={{
@@ -167,7 +184,7 @@ const ArticleTableList: React.FC = () => {
             <PlusOutlined /> 新建
           </Button>,
         ]}
-        request={(params, sorter, filter) => queryRule({ ...params, sorter, filter })}
+        request={(params, sorter, filter) => queryArticle({ ...params, sorter, filter })}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -203,35 +220,21 @@ const ArticleTableList: React.FC = () => {
           </Button>
         </FooterToolbar>
       )}
-      <ModalForm
-        title="创建用户"
-        width="400px"
-        visible={createModalVisible}
-        onVisibleChange={handleModalVisible}
-        onFinish={async (value) => {
-          const success = await handleAdd(value as API.RuleListItem);
-
+      <CreateForm
+        onSubmit={async (value) => {
+          const success = await handleAdd(value);
           if (success) {
             handleModalVisible(false);
-
             if (actionRef.current) {
               actionRef.current.reload();
             }
           }
         }}
-      >
-        <ProFormText
-          rules={[
-            {
-              required: true,
-              message: '用户名为必填项',
-            },
-          ]}
-          width="md"
-          name="name"
-          label="用户名"
-        />
-      </ModalForm>
+        onCancel={() => {
+          handleModalVisible(false);
+        }}
+        createModalVisible={createModalVisible}
+      />
       {currentRow && Object.keys(currentRow).length ? (
         <UpdateForm
           onSubmit={async (value) => {
