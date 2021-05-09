@@ -11,8 +11,8 @@ export interface CreateFormProps {
 const FormItem = Form.Item;
 
 const formLayout = {
-  labelCol: { span: 7 },
-  wrapperCol: { span: 13 },
+  labelCol: { span: 4 },
+  wrapperCol: { span: 18 },
 };
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
@@ -81,8 +81,7 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
 
   return (
     <Modal
-      width={750}
-      bodyStyle={{ padding: '30px' }}
+      width={'100%'}
       title="创建文章"
       visible={createModalVisible}
       footer={renderFooter()}

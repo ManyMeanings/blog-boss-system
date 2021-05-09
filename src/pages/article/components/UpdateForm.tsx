@@ -12,8 +12,8 @@ export interface UpdateFormProps {
 const FormItem = Form.Item;
 
 const formLayout = {
-  labelCol: { span: 7 },
-  wrapperCol: { span: 13 },
+  labelCol: { span: 4 },
+  wrapperCol: { span: 18 },
 };
 
 const UpdateForm: React.FC<UpdateFormProps> = (props) => {
@@ -84,7 +84,7 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
 
   return (
     <Modal
-      width={750}
+      width={'100%'}
       bodyStyle={{ padding: '30px' }}
       title="修改"
       visible={updateModalVisible}

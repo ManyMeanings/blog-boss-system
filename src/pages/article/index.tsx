@@ -96,21 +96,6 @@ const ArticleTableList: React.FC = () => {
     {
       title: '标题',
       dataIndex: 'title',
-      render: (_, record) => [
-        <a
-          onClick={() => {
-            history.push({
-              pathname: '/detail',
-              query: {
-                title: record.title.toString(),
-                content: record.content.toString(),
-              },
-            });
-          }}
-        >
-          {record.title}
-        </a>,
-      ],
     },
     {
       title: '作者',

@@ -83,6 +83,10 @@ function getArticle(req: Request, res: Response, u: string) {
     dataSource = dataSource.filter((data) => data?.author?.includes(params.author || ''));
   }
 
+  if (params.key) {
+    dataSource = dataSource.filter((data) => data?.key?.toString().includes(params.key?.toString() || ''));
+  }
+
   const finalDataSource = [...dataSource].slice(
     ((current as number) - 1) * (pageSize as number),
     (current as number) * (pageSize as number),
