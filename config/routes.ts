@@ -19,22 +19,20 @@
     name: 'dashboard.analysis',
     icon: 'PieChartOutlined',
     path: '/analysis',
-    access: 'canAdmin',
     component: './analysis',
   },
   {
     name: 'dashboard.monitor',
     icon: 'dashboard',
     path: '/monitor',
-    access: 'canAdmin',
     component: './monitor',
   },
   {
     name: 'list.user',
     icon: 'table',
-    path: '/TableList',
+    path: '/table',
     access: 'canAdmin',
-    component: './TableList',
+    component: './table',
   },
   {
     name: 'list.article',
@@ -45,7 +43,7 @@
   },
   {
     path: '/',
-    redirect: '/analysis',
+    redirect: './analysis',
   },
   {
     component: './404',

@@ -2,7 +2,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Alert, message } from 'antd';
 import React, { useState } from 'react';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { useIntl, Link, history, SelectLang, useModel } from 'umi';
+import { Link, history, SelectLang, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import styles from './index.less';
@@ -37,7 +37,6 @@ const Login: React.FC = () => {
   const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
-  const intl = useIntl();
 
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
@@ -81,7 +80,7 @@ const Login: React.FC = () => {
               <span className={styles.title}>Login System</span>
             </Link>
           </div>
-          <div className={styles.desc}></div>
+          <div className={styles.desc}>admin拥有所有权限，user拥有部分权限</div>
         </div>
 
         <div className={styles.main}>
@@ -91,10 +90,7 @@ const Login: React.FC = () => {
             }}
             submitter={{
               searchConfig: {
-                submitText: intl.formatMessage({
-                  id: 'pages.login.submit',
-                  defaultMessage: '登录',
-                }),
+                submitText: '登陆'
               },
               render: (_, dom) => dom.pop(),
               submitButtonProps: {
@@ -111,10 +107,7 @@ const Login: React.FC = () => {
           >
             {status === 'error' && loginType === 'account' && (
               <LoginMessage
-                content={intl.formatMessage({
-                  id: 'pages.login.accountLogin.errorMessage',
-                  defaultMessage: '账户或密码错误（admin/password)',
-                })}
+                content='账号或密码错误'
               />
             )}
             {type === 'account' && (
@@ -125,10 +118,7 @@ const Login: React.FC = () => {
                     size: 'large',
                     prefix: <UserOutlined className={styles.prefixIcon} />,
                   }}
-                  placeholder={intl.formatMessage({
-                    id: 'pages.login.username.placeholder',
-                    defaultMessage: '用户名: admin',
-                  })}
+                  placeholder='用户名：admin/user'
                   rules={[
                     {
                       required: true,
@@ -142,10 +132,7 @@ const Login: React.FC = () => {
                     size: 'large',
                     prefix: <LockOutlined className={styles.prefixIcon} />,
                   }}
-                  placeholder={intl.formatMessage({
-                    id: 'pages.login.password.placeholder',
-                    defaultMessage: '密码: password',
-                  })}
+                  placeholder='密码：password'
                   rules={[
                     {
                       required: true,

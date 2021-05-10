@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Statistic } from 'antd';
 import { MiniArea } from '../Charts';
@@ -19,7 +19,7 @@ function getActiveData() {
   return activeData;
 }
 
-export default class ActiveChart extends Component {
+export default class ActiveChart extends React.Component {
   state = {
     activeData: getActiveData(),
   };
@@ -50,7 +50,7 @@ export default class ActiveChart extends Component {
             this.loopData();
           },
         );
-      }, 1000);
+      }, 2000);
     });
   };
 
@@ -80,20 +80,6 @@ export default class ActiveChart extends Component {
             data={activeData}
           />
         </div>
-        {activeData && (
-          <div>
-            <div className={styles.activeChartGrid}>
-              <p>{[...activeData].sort()[activeData.length - 1].y + 200} 亿元</p>
-              <p>{[...activeData].sort()[Math.floor(activeData.length / 2)].y} 亿元</p>
-            </div>
-            <div className={styles.dashedLine}>
-              <div className={styles.line} />
-            </div>
-            <div className={styles.dashedLine}>
-              <div className={styles.line} />
-            </div>
-          </div>
-        )}
         {activeData && (
           <div className={styles.activeChartLegend}>
             <span>00:00</span>

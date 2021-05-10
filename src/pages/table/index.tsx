@@ -75,7 +75,7 @@ const handleUpdate = async (fields: API.TableListParams) => {
   }
 };
 
-const TableList: React.FC = () => {
+const Table: React.FC = () => {
   /** 新建窗口的弹窗 */
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
@@ -256,4 +256,4 @@ const TableList: React.FC = () => {
   );
 };
 
-export default TableList;
+export default Table;

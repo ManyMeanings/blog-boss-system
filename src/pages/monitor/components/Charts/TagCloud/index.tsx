@@ -15,7 +15,7 @@ const imgUrl = 'https://gw.alipayobjects.com/zos/rmsportal/gWyeGLCdFFRavBGIDzWk.
 export interface TagCloudProps {
   data: {
     name: string;
-    value: string;
+    value: number;
   }[];
   height?: number;
   className?: string;

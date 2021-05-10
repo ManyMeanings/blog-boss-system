@@ -68,10 +68,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
             <LinkOutlined />
             <span>openAPI 文档</span>
           </Link>,
-          <Link to="/~docs">
-            <BookOutlined />
-            <span>业务组件文档</span>
-          </Link>,
         ]
       : [],
     menuHeaderRender: undefined,

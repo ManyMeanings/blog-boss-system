@@ -168,4 +168,10 @@ declare namespace API {
     radarData: RadarData[];
   }
 
+  export interface TagType {
+    name: string;
+    value: string;
+    type: string;
+  }  
+
 }
