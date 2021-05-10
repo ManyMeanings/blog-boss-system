@@ -1,5 +1,4 @@
-import { EllipsisOutlined } from '@ant-design/icons';
-import { Col, Dropdown, Menu, Row } from 'antd';
+import { Col, Row } from 'antd';
 import React, { Component } from 'react';
 import { GridContent } from '@ant-design/pro-layout';
 import type { RadioChangeEvent } from 'antd/es/radio';
@@ -9,32 +8,31 @@ import type { Dispatch } from 'umi';
 import { connect } from 'umi';
 
 import { getTimeDistance } from './utils/utils';
-import type { AnalysisData } from './data.d';
 import styles from './style.less';
 
 import IntroduceRow from './components/IntroduceRow';
 import SalesCard from './components/SalesCard';
 import TopSearch from './components/TopSearch';
 import ProportionSales from './components/ProportionSales';
-import OfflineData from './components/OfflineData';
+// import OfflineData from './components/OfflineData';
 
 type RangePickerValue = RangePickerProps<moment.Moment>['value'];
 
 interface AnalysisProps {
-  dashboardAndanalysis: AnalysisData;
+  dashboardAndanalysis: API.AnalysisData;
   dispatch: Dispatch;
   loading: boolean;
 }
 
 interface AnalysisState {
-  salesType: 'all' | 'online' | 'stores';
+  salesType: 'income' | 'from' ;
   currentTabKey: string;
   rangePickerValue: RangePickerValue;
 }
 
 class Analysis extends Component<AnalysisProps, AnalysisState> {
   state: AnalysisState = {
-    salesType: 'all',
+    salesType: 'income',
     currentTabKey: '',
     rangePickerValue: getTimeDistance('year'),
   };
@@ -117,41 +115,23 @@ class Analysis extends Component<AnalysisProps, AnalysisState> {
   };
 
   render() {
-    const { rangePickerValue, salesType, currentTabKey } = this.state;
+    const { rangePickerValue, salesType} = this.state;
     const { dashboardAndanalysis, loading } = this.props;
     const {
       visitData,
       visitData2,
       salesData,
       searchData,
-      offlineData,
-      offlineChartData,
-      salesTypeData,
-      salesTypeDataOnline,
-      salesTypeDataOffline,
+      typeData1,
+      typeData2,
     } = dashboardAndanalysis;
     let salesPieData;
-    if (salesType === 'all') {
-      salesPieData = salesTypeData;
+    if (salesType === 'income') {
+      salesPieData = typeData1;
     } else {
-      salesPieData = salesType === 'online' ? salesTypeDataOnline : salesTypeDataOffline;
+      salesPieData = typeData2;
     }
-    const menu = (
-      <Menu>
-        <Menu.Item>操作一</Menu.Item>
-        <Menu.Item>操作二</Menu.Item>
-      </Menu>
-    );
 
-    const dropdownGroup = (
-      <span className={styles.iconGroup}>
-        <Dropdown overlay={menu} placement="bottomRight">
-          <EllipsisOutlined />
-        </Dropdown>
-      </span>
-    );
-
-    const activeKey = currentTabKey || (offlineData[0] && offlineData[0].name);
     return (
       <GridContent>
         <React.Fragment>
@@ -175,12 +155,10 @@ class Analysis extends Component<AnalysisProps, AnalysisState> {
                 loading={loading}
                 visitData2={visitData2}
                 searchData={searchData}
-                dropdownGroup={dropdownGroup}
               />
             </Col>
             <Col xl={12} lg={24} md={24} sm={24} xs={24}>
               <ProportionSales
-                dropdownGroup={dropdownGroup}
                 salesType={salesType}
                 loading={loading}
                 salesPieData={salesPieData}
@@ -188,13 +166,6 @@ class Analysis extends Component<AnalysisProps, AnalysisState> {
               />
             </Col>
           </Row>
-          <OfflineData
-            activeKey={activeKey}
-            loading={loading}
-            offlineData={offlineData}
-            offlineChartData={offlineChartData}
-            handleTabChange={this.handleTabChange}
-          />
         </React.Fragment>
       </GridContent>
     );

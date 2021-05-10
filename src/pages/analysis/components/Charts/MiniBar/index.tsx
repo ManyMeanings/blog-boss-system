@@ -17,6 +17,10 @@ export interface MiniBarProps {
 
 const MiniBar: React.FC<MiniBarProps> = (props) => {
   const { height = 0, forceFit = true, color = '#1890FF', data = [] } = props;
+  data.forEach((item)=>{
+    // eslint-disable-next-line no-param-reassign
+    item.y = Math.floor(item.y / 100)
+  })
 
   const scale = {
     x: {

@@ -1,9 +1,6 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { Card, Col, Row, Table, Tooltip } from 'antd';
-import { FormattedMessage } from 'umi';
+import { Card, Col, Row, Table } from 'antd';
 import React from 'react';
 import numeral from 'numeral';
-import type { SearchDataType, VisitDataType } from '../data.d';
 
 import { MiniArea } from './Charts';
 import NumberInfo from './NumberInfo';
@@ -12,35 +9,25 @@ import styles from '../style.less';
 
 const columns = [
   {
-    title: <FormattedMessage id="dashboardandanalysis.table.rank" defaultMessage="Rank" />,
+    title: '排名',
     dataIndex: 'index',
     key: 'index',
   },
   {
-    title: (
-      <FormattedMessage
-        id="dashboardandanalysis.table.search-keyword"
-        defaultMessage="Search keyword"
-      />
-    ),
+    title: '搜索关键词',
     dataIndex: 'keyword',
     key: 'keyword',
     render: (text: React.ReactNode) => <a href="/">{text}</a>,
   },
   {
-    title: <FormattedMessage id="dashboardandanalysis.table.users" defaultMessage="Users" />,
+    title: '用户数',
     dataIndex: 'count',
     key: 'count',
     sorter: (a: { count: number }, b: { count: number }) => a.count - b.count,
     className: styles.alignRight,
   },
   {
-    title: (
-      <FormattedMessage
-        id="dashboardandanalysis.table.weekly-range"
-        defaultMessage="Weekly Range"
-      />
-    ),
+    title: '周涨幅',
     dataIndex: 'range',
     key: 'range',
     sorter: (a: { range: number }, b: { range: number }) => a.range - b.range,
@@ -56,23 +43,15 @@ const TopSearch = ({
   loading,
   visitData2,
   searchData,
-  dropdownGroup,
 }: {
   loading: boolean;
-  visitData2: VisitDataType[];
-  dropdownGroup: React.ReactNode;
-  searchData: SearchDataType[];
+  visitData2: API.VisitDataType[];
+  searchData: API.SearchDataType[];
 }) => (
   <Card
     loading={loading}
     bordered={false}
-    title={
-      <FormattedMessage
-        id="dashboardandanalysis.analysis.online-top-search"
-        defaultMessage="Online Top Search"
-      />
-    }
-    extra={dropdownGroup}
+    title="热门搜索"
     style={{
       height: '100%',
     }}
@@ -80,24 +59,7 @@ const TopSearch = ({
     <Row gutter={68}>
       <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
         <NumberInfo
-          subTitle={
-            <span>
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.search-users"
-                defaultMessage="search users"
-              />
-              <Tooltip
-                title={
-                  <FormattedMessage
-                    id="dashboardandanalysis.analysis.introduce"
-                    defaultMessage="introduce"
-                  />
-                }
-              >
-                <InfoCircleOutlined style={{ marginLeft: 8 }} />
-              </Tooltip>
-            </span>
-          }
+          subTitle={<span>搜索用户数</span>}
           gap={8}
           total={numeral(12321).format('0,0')}
           status="up"
@@ -107,24 +69,7 @@ const TopSearch = ({
       </Col>
       <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
         <NumberInfo
-          subTitle={
-            <span>
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.per-capita-search"
-                defaultMessage="Per Capita Search"
-              />
-              <Tooltip
-                title={
-                  <FormattedMessage
-                    id="dashboardandanalysis.analysis.introduce"
-                    defaultMessage="introduce"
-                  />
-                }
-              >
-                <InfoCircleOutlined style={{ marginLeft: 8 }} />
-              </Tooltip>
-            </span>
-          }
+          subTitle={<span>人均搜索次数</span>}
           total={2.7}
           status="down"
           subTotal={26.2}

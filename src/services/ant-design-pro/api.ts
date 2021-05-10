@@ -117,3 +117,10 @@ export async function removeArticle(params: { key: number[] }) {
     },
   });
 }
+
+export async function fakeChartData() {
+  return request('/api/fake_chart_data');
+}
+
+
+

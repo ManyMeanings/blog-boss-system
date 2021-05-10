@@ -1,18 +1,16 @@
 import type { Effect, Reducer } from 'umi';
-
-import type { AnalysisData } from './data.d';
-import { fakeChartData } from './service';
+import { fakeChartData } from '@/services/ant-design-pro/api';
 
 export interface ModelType {
   namespace: string;
-  state: AnalysisData;
+  state: API.AnalysisData;
   effects: {
     fetch: Effect;
     fetchSalesData: Effect;
   };
   reducers: {
-    save: Reducer<AnalysisData>;
-    clear: Reducer<AnalysisData>;
+    save: Reducer<API.AnalysisData>;
+    clear: Reducer<API.AnalysisData>;
   };
 }
 
@@ -23,9 +21,8 @@ const initState = {
   searchData: [],
   offlineData: [],
   offlineChartData: [],
-  salesTypeData: [],
-  salesTypeDataOnline: [],
-  salesTypeDataOffline: [],
+  typeData1: [],
+  typeData2: [],
   radarData: [],
 };
 

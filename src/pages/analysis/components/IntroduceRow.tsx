@@ -1,11 +1,8 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Col, Row, Tooltip } from 'antd';
 
-import { FormattedMessage } from 'umi';
-import React from 'react';
 import numeral from 'numeral';
 import { ChartCard, MiniArea, MiniBar, MiniProgress, Field } from './Charts';
-import type { VisitDataType } from '../data.d';
 import Trend from './Trend';
 import Yuan from '../utils/Yuan';
 import styles from '../style.less';
@@ -19,53 +16,34 @@ const topColResponsiveProps = {
   style: { marginBottom: 24 },
 };
 
-const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: VisitDataType[] }) => (
+const IntroduceRow = ({
+  loading,
+  visitData,
+}: {
+  loading: boolean;
+  visitData: API.VisitDataType[];
+}) => (
   <Row gutter={24}>
     <Col {...topColResponsiveProps}>
       <ChartCard
         bordered={false}
-        title={
-          <FormattedMessage
-            id="dashboardandanalysis.analysis.total-sales"
-            defaultMessage="Total Sales"
-          />
-        }
+        title="总收入"
         action={
-          <Tooltip
-            title={
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.introduce"
-                defaultMessage="Introduce"
-              />
-            }
-          >
+          <Tooltip title="广告收入等">
             <InfoCircleOutlined />
           </Tooltip>
         }
         loading={loading}
-        total={() => <Yuan>126560</Yuan>}
-        footer={
-          <Field
-            label={
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.day-sales"
-                defaultMessage="Daily Sales"
-              />
-            }
-            value={`￥${numeral(12423).format('0,0')}`}
-          />
-        }
+        total={() => <Yuan>17051223</Yuan>}
+        footer={<Field label="日收入" value={`￥${numeral(10115).format('0,0')}`} />}
         contentHeight={46}
       >
         <Trend flag="up" style={{ marginRight: 16 }}>
-          <FormattedMessage
-            id="dashboardandanalysis.analysis.week"
-            defaultMessage="Weekly Changes"
-          />
+          周同比
           <span className={styles.trendText}>12%</span>
         </Trend>
         <Trend flag="down">
-          <FormattedMessage id="dashboardandanalysis.analysis.day" defaultMessage="Daily Changes" />
+          日同比
           <span className={styles.trendText}>11%</span>
         </Trend>
       </ChartCard>
@@ -75,33 +53,14 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
       <ChartCard
         bordered={false}
         loading={loading}
-        title={
-          <FormattedMessage id="dashboardandanalysis.analysis.visits" defaultMessage="Visits" />
-        }
+        title="访问量"
         action={
-          <Tooltip
-            title={
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.introduce"
-                defaultMessage="Introduce"
-              />
-            }
-          >
+          <Tooltip title="今日网站访问次数">
             <InfoCircleOutlined />
           </Tooltip>
         }
         total={numeral(8846).format('0,0')}
-        footer={
-          <Field
-            label={
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.day-visits"
-                defaultMessage="Daily Visits"
-              />
-            }
-            value={numeral(1234).format('0,0')}
-          />
-        }
+        footer={<Field label="在线人数" value={numeral(1234).format('0,0')} />}
         contentHeight={46}
       >
         <MiniArea color="#975FE4" data={visitData} />
@@ -111,33 +70,14 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
       <ChartCard
         bordered={false}
         loading={loading}
-        title={
-          <FormattedMessage id="dashboardandanalysis.analysis.payments" defaultMessage="Payments" />
-        }
+        title="总文章数"
         action={
-          <Tooltip
-            title={
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.introduce"
-                defaultMessage="Introduce"
-              />
-            }
-          >
+          <Tooltip title="网站所收录的文章总数">
             <InfoCircleOutlined />
           </Tooltip>
         }
         total={numeral(6560).format('0,0')}
-        footer={
-          <Field
-            label={
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.conversion-rate"
-                defaultMessage="Conversion Rate"
-              />
-            }
-            value="60%"
-          />
-        }
+        footer={<Field label="日增文章数" value="88" />}
         contentHeight={46}
       >
         <MiniBar data={visitData} />
@@ -147,46 +87,28 @@ const IntroduceRow = ({ loading, visitData }: { loading: boolean; visitData: Vis
       <ChartCard
         loading={loading}
         bordered={false}
-        title={
-          <FormattedMessage
-            id="dashboardandanalysis.analysis.operational-effect"
-            defaultMessage="Operational Effect"
-          />
-        }
+        title="用户活跃度"
         action={
-          <Tooltip
-            title={
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.introduce"
-                defaultMessage="Introduce"
-              />
-            }
-          >
+          <Tooltip title="综合计算多个指标所得">
             <InfoCircleOutlined />
           </Tooltip>
         }
-        total="78%"
+        total="82%"
         footer={
           <div style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
             <Trend flag="up" style={{ marginRight: 16 }}>
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.week"
-                defaultMessage="Weekly Changes"
-              />
-              <span className={styles.trendText}>12%</span>
+              周同比
+              <span className={styles.trendText}>8%</span>
             </Trend>
             <Trend flag="down">
-              <FormattedMessage
-                id="dashboardandanalysis.analysis.day"
-                defaultMessage="Weekly Changes"
-              />
-              <span className={styles.trendText}>11%</span>
+              日同比
+              <span className={styles.trendText}>2%</span>
             </Trend>
           </div>
         }
         contentHeight={46}
       >
-        <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" />
+        <MiniProgress percent={82} strokeWidth={8} target={88} color="#13C2C2" />
       </ChartCard>
     </Col>
   </Row>

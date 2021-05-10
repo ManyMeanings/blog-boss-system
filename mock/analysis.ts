@@ -1,11 +1,10 @@
 import moment from 'moment';
-import type { AnalysisData, RadarData, VisitDataType } from './data.d';
 
 // mock data
-const visitData: VisitDataType[] = [];
+const visitData: API.VisitDataType[] = [];
 const beginDay = new Date().getTime();
 
-const fakeY = [7, 5, 4, 2, 4, 7, 5, 6, 5, 9, 6, 3, 1, 5, 3, 6, 5];
+const fakeY = [8846, 8875, 10211, 5679, 7756, 9998, 8798, 7788, 7654, 6543, 6189, 6122, 7875, 5345, 8876];
 for (let i = 0; i < fakeY.length; i += 1) {
   visitData.push({
     x: moment(new Date(beginDay + 1000 * 60 * 60 * 24 * i)).format('YYYY-MM-DD'),
@@ -39,98 +38,43 @@ for (let i = 0; i < 50; i += 1) {
     status: Math.floor((Math.random() * 10) % 2),
   });
 }
-const salesTypeData = [
+const typeData1 = [
   {
-    x: '家用电器',
-    y: 4544,
+    x: '广告',
+    y: 10230733,
   },
   {
-    x: '食用酒水',
-    y: 3321,
+    x: '会员',
+    y: 3410244,
   },
   {
-    x: '个护健康',
-    y: 3113,
-  },
-  {
-    x: '服饰箱包',
-    y: 2341,
-  },
-  {
-    x: '母婴产品',
-    y: 1231,
+    x: '赞助',
+    y: 1705122,
   },
   {
     x: '其他',
-    y: 1231,
+    y: 1705124,
   },
 ];
 
-const salesTypeDataOnline = [
+const typeData2 = [
   {
-    x: '家用电器',
-    y: 244,
+    x: '百度',
+    y: 5000,
   },
   {
-    x: '食用酒水',
-    y: 321,
+    x: '谷歌',
+    y: 2500,
   },
   {
-    x: '个护健康',
-    y: 311,
-  },
-  {
-    x: '服饰箱包',
-    y: 41,
-  },
-  {
-    x: '母婴产品',
-    y: 121,
+    x: '必应',
+    y: 1000,
   },
   {
     x: '其他',
-    y: 111,
+    y: 500,
   },
 ];
-
-const salesTypeDataOffline = [
-  {
-    x: '家用电器',
-    y: 99,
-  },
-  {
-    x: '食用酒水',
-    y: 188,
-  },
-  {
-    x: '个护健康',
-    y: 344,
-  },
-  {
-    x: '服饰箱包',
-    y: 255,
-  },
-  {
-    x: '其他',
-    y: 65,
-  },
-];
-
-const offlineData = [];
-for (let i = 0; i < 10; i += 1) {
-  offlineData.push({
-    name: `Stores ${i}`,
-    cvr: Math.ceil(Math.random() * 9) / 10,
-  });
-}
-const offlineChartData = [];
-for (let i = 0; i < 20; i += 1) {
-  offlineChartData.push({
-    x: new Date().getTime() + 1000 * 60 * 30 * i,
-    y1: Math.floor(Math.random() * 100) + 10,
-    y2: Math.floor(Math.random() * 100) + 10,
-  });
-}
 
 const radarOriginData = [
   {
@@ -159,7 +103,7 @@ const radarOriginData = [
   },
 ];
 
-const radarData: RadarData[] = [];
+const radarData: API.RadarData[] = [];
 const radarTitleMap = {
   ref: '引用',
   koubei: '口碑',
@@ -179,16 +123,13 @@ radarOriginData.forEach((item) => {
   });
 });
 
-const getFakeChartData: AnalysisData = {
+const getFakeChartData: API.AnalysisData = {
   visitData,
   visitData2,
   salesData,
   searchData,
-  offlineData,
-  offlineChartData,
-  salesTypeData,
-  salesTypeDataOnline,
-  salesTypeDataOffline,
+  typeData1,
+  typeData2,
   radarData,
 };
 

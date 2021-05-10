@@ -6,7 +6,6 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import UpdateForm from './components/UpdateForm';
 import CreateForm from './components/CreateForm';
-import { history } from 'umi';
 
 import {
   queryArticle,
