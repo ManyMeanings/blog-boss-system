@@ -1,5 +1,4 @@
 import { Button, message, notification } from 'antd';
-import { useIntl } from 'umi';
 import defaultSettings from '../config/defaultSettings';
 
 const { pwa } = defaultSettings;
@@ -8,11 +7,7 @@ const isHttps = document.location.protocol === 'https:'; // if pwa is true
 if (pwa) {
   // Notify user if offline now
   window.addEventListener('sw.offline', () => {
-    message.warning(
-      useIntl().formatMessage({
-        id: 'app.pwa.offline',
-      }),
-    );
+    message.warning('当前处于离线状态');
   }); // Pop up a prompt on the page asking the user if they want to use the latest version
 
   window.addEventListener('sw.updated', (event: Event) => {
@@ -59,18 +54,12 @@ if (pwa) {
           reloadSW();
         }}
       >
-        {useIntl().formatMessage({
-          id: 'app.pwa.serviceworker.updated.ok',
-        })}
+        刷新
       </Button>
     );
     notification.open({
-      message: useIntl().formatMessage({
-        id: 'app.pwa.serviceworker.updated',
-      }),
-      description: useIntl().formatMessage({
-        id: 'app.pwa.serviceworker.updated.hint',
-      }),
+      message: '有新内容',
+      description: '请点击“刷新”按钮或者手动刷新页面',
       btn,
       key,
       onClose: async () => null,

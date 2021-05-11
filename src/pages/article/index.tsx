@@ -6,6 +6,7 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import UpdateForm from './components/UpdateForm';
 import CreateForm from './components/CreateForm';
+import { useAccess } from 'umi';
 
 import {
   queryArticle,
@@ -90,6 +91,7 @@ const ArticleTableList: React.FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<API.ArticleListItem[]>([]);
   const [currentRow, setCurrentRow] = useState<API.ArticleListItem>();
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const access = useAccess();
 
   const columns: ProColumns<API.ArticleListItem>[] = [
     {
@@ -144,27 +146,32 @@ const ArticleTableList: React.FC = () => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            setCurrentRow(record);
-            handleUpdateModalVisible(true);
-          }}
-        >
-          修改
-        </a>,
-        <a
-          key="config"
-          onClick={() => {
-            // @ts-ignore
-            handleRemove([{ key: record.key }]);
-            actionRef.current?.reloadAndRest?.();
-          }}
-        >
-          删除
-        </a>,
-      ],
+      render: (_, record) => {
+        if (access.canAdmin) {
+          return [
+            <a
+              key="config"
+              onClick={() => {
+                setCurrentRow(record);
+                handleUpdateModalVisible(true);
+              }}
+            >
+              修改
+            </a>,
+            <a
+              key="config"
+              onClick={() => {
+                // @ts-ignore
+                handleRemove([{ key: record.key }]);
+                actionRef.current?.reloadAndRest?.();
+              }}
+            >
+              删除
+            </a>,
+          ];
+        }
+        return '无此权限';
+      },
     },
   ];
   return (

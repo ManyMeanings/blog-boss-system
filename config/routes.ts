@@ -16,29 +16,28 @@
     ],
   },
   {
-    name: 'dashboard.analysis',
+    name: '分析图表',
     icon: 'PieChartOutlined',
     path: '/analysis',
     component: './analysis',
   },
   {
-    name: 'dashboard.monitor',
+    name: '监控图表',
     icon: 'dashboard',
     path: '/monitor',
     component: './monitor',
   },
   {
-    name: 'list.user',
+    name: '用户表格',
     icon: 'table',
     path: '/table',
     access: 'canAdmin',
     component: './table',
   },
   {
-    name: 'list.article',
+    name: '文章表格',
     icon: 'table',
     path: '/article',
-    access: 'canAdmin',
     component: './article',
   },
   {

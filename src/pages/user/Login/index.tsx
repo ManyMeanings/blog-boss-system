@@ -2,7 +2,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Alert, message } from 'antd';
 import React, { useState } from 'react';
 import ProForm, { ProFormText } from '@ant-design/pro-form';
-import { Link, history, SelectLang, useModel } from 'umi';
+import { Link, history, useModel } from 'umi';
 import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import styles from './index.less';
@@ -19,8 +19,8 @@ const LoginMessage: React.FC<{
     showIcon
   />
 );
-/** 此方法会跳转到 redirect 参数所在的位置 */
 
+/** 跳转到 redirect 参数所在的位置 */
 const goto = () => {
   if (!history) return;
   setTimeout(() => {
@@ -71,7 +71,6 @@ const Login: React.FC = () => {
   const { status, type: loginType } = userLoginState;
   return (
     <div className={styles.container}>
-      <div className={styles.lang}>{SelectLang && <SelectLang />}</div>
       <div className={styles.content}>
         <div className={styles.top}>
           <div className={styles.header}>
@@ -80,7 +79,7 @@ const Login: React.FC = () => {
               <span className={styles.title}>Login System</span>
             </Link>
           </div>
-          <div className={styles.desc}>admin拥有所有权限，user拥有部分权限</div>
+          <div className={styles.desc}></div>
         </div>
 
         <div className={styles.main}>
@@ -90,7 +89,7 @@ const Login: React.FC = () => {
             }}
             submitter={{
               searchConfig: {
-                submitText: '登陆'
+                submitText: '登陆',
               },
               render: (_, dom) => dom.pop(),
               submitButtonProps: {
@@ -105,10 +104,15 @@ const Login: React.FC = () => {
               handleSubmit(values as API.LoginParams);
             }}
           >
+            <Alert
+              message="使用 admin 账号登陆获得所有权限，使用 user 账号登陆收到权限控制。"
+              type="success"
+              style={{
+                marginBottom: 24,
+              }}
+            />
             {status === 'error' && loginType === 'account' && (
-              <LoginMessage
-                content='账号或密码错误'
-              />
+              <LoginMessage content="账号或密码错误" />
             )}
             {type === 'account' && (
               <>
@@ -118,7 +122,7 @@ const Login: React.FC = () => {
                     size: 'large',
                     prefix: <UserOutlined className={styles.prefixIcon} />,
                   }}
-                  placeholder='用户名：admin/user'
+                  placeholder="用户名：admin/user"
                   rules={[
                     {
                       required: true,
@@ -132,7 +136,7 @@ const Login: React.FC = () => {
                     size: 'large',
                     prefix: <LockOutlined className={styles.prefixIcon} />,
                   }}
-                  placeholder='密码：password'
+                  placeholder="密码：password"
                   rules={[
                     {
                       required: true,

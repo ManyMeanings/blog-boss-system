@@ -7,6 +7,7 @@ import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText } from '@ant-design/pro-form';
 import UpdateForm from './components/UpdateForm';
 import { queryRule, updateRule, addRule, removeRule } from '@/services/ant-design-pro/api';
+import { useAccess } from 'umi';
 /**
  * 添加节点
  *
@@ -82,6 +83,7 @@ const Table: React.FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([]);
   const [currentRow, setCurrentRow] = useState<API.RuleListItem>();
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const access = useAccess();
 
   const columns: ProColumns<API.RuleListItem>[] = [
     {
@@ -125,26 +127,31 @@ const Table: React.FC = () => {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            setCurrentRow(record);
-            handleUpdateModalVisible(true);
-          }}
-        >
-          修改
-        </a>,
-        <a
-          key="config"
-          onClick={() => {
-            handleRemove([{ key: record.key }]);
-            actionRef.current?.reloadAndRest?.();
-          }}
-        >
-          删除
-        </a>,
-      ],
+      render: (_, record) => {
+        if (access.canAdmin) {
+          return [
+            <a
+              key="config"
+              onClick={() => {
+                setCurrentRow(record);
+                handleUpdateModalVisible(true);
+              }}
+            >
+              修改
+            </a>,
+            <a
+              key="config"
+              onClick={() => {
+                handleRemove([{ key: record.key }]);
+                actionRef.current?.reloadAndRest?.();
+              }}
+            >
+              删除
+            </a>,
+          ];
+        }
+        return '无此权限';
+      },
     },
   ];
   return (
