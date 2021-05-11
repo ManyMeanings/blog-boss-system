@@ -76,6 +76,9 @@ declare namespace API {
     views?: number;
     lastModifyAt?: string;
     content: string;
+    tags?: string[];
+    star?: number;
+    like?: number;
   };
 
   type RuleList = {
@@ -172,6 +175,6 @@ declare namespace API {
     name: string;
     value: string;
     type: string;
-  }  
+  }
 
 }

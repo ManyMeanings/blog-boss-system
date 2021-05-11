@@ -6,7 +6,7 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import UpdateForm from './components/UpdateForm';
 import CreateForm from './components/CreateForm';
-import { useAccess } from 'umi';
+import { useAccess, history } from 'umi';
 
 import {
   queryArticle,
@@ -97,6 +97,22 @@ const ArticleTableList: React.FC = () => {
     {
       title: '标题',
       dataIndex: 'title',
+      render: (title, record) => {
+        return (
+          <a
+            onClick={() => {
+              history.push({
+                pathname: '/content',
+                query: {
+                  key: record.key.toString(),
+                },
+              });
+            }}
+          >
+            {title}
+          </a>
+        );
+      },
     },
     {
       title: '作者',

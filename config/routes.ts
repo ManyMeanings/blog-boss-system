@@ -41,6 +41,18 @@
     component: './article',
   },
   {
+    name: '用户详情',
+    icon: 'user',
+    path: '/center',
+    component: './center',
+  },
+  {
+    name: '文章详情',
+    icon: 'smile',
+    path: '/content',
+    component: './content',
+  },
+  {
     path: '/',
     redirect: './analysis',
   },
