@@ -18,6 +18,26 @@ const genList = (current: number, pageSize: number) => {
       location: '浙江省杭州市',
     });
   }
+  tableListDataSource.push({
+    key: 50,
+    name: 'user',
+    status: 0,
+    lastLoginAt: new Date().getTime(),
+    activity: 85,
+    avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+    location: '浙江省杭州市',
+  });
+
+  tableListDataSource.push({
+    key: 51,
+    name: 'admin',
+    status: 0,
+    lastLoginAt: new Date().getTime(),
+    activity: 85,
+    avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+    location: '浙江省杭州市',
+  });
+
   tableListDataSource.reverse();
   return tableListDataSource;
 };
@@ -76,6 +96,10 @@ function getRule(req: Request, res: Response, u: string) {
 
   if (params.name) {
     dataSource = dataSource.filter((data) => data?.name?.includes(params.name || ''));
+  }
+
+  if (params.key) {
+    dataSource = dataSource.filter((data) => data.key == params.key);
   }
 
   const finalDataSource = [...dataSource].slice(

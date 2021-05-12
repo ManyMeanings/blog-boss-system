@@ -1,4 +1,4 @@
-import { Card, message, Button } from 'antd';
+import { Card, message } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { queryArticle } from '@/services/ant-design-pro/api';
@@ -29,16 +29,8 @@ const Content: React.FC = () => {
   return (
     <PageContainer>
       <Card loading={loading} style={{ marginBottom: '16px' }} title={article?.title || ''}>
-        <div dangerouslySetInnerHTML={{ __html: article?.content || ''}}></div>
+        <div dangerouslySetInnerHTML={{ __html: article?.content || '' }}></div>
       </Card>
-      <Button
-        onClick={() => {
-          history.goBack();
-        }}
-        type="primary"
-      >
-        返回
-      </Button>
     </PageContainer>
   );
 };

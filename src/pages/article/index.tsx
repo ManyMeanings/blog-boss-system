@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, StarTwoTone, LikeTwoTone, EyeTwoTone } from '@ant-design/icons';
 import { Button, message, Space, Tag } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -157,6 +157,12 @@ const ArticleTableList: React.FC = () => {
       dataIndex: 'views',
       hideInForm: true,
       search: false,
+      render: (dom) => (
+        <Space>
+          <EyeTwoTone />
+          {dom}
+        </Space>
+      ),
     },
     {
       title: '点赞',
@@ -164,6 +170,12 @@ const ArticleTableList: React.FC = () => {
       dataIndex: 'like',
       hideInForm: true,
       search: false,
+      render: (dom) => (
+        <Space>
+          <LikeTwoTone />
+          {dom}
+        </Space>
+      ),
     },
     {
       title: '收藏',
@@ -171,6 +183,12 @@ const ArticleTableList: React.FC = () => {
       dataIndex: 'star',
       hideInForm: true,
       search: false,
+      render: (dom) => (
+        <Space>
+          <StarTwoTone />
+          {dom}
+        </Space>
+      ),
     },
     {
       title: '上次修改时间',

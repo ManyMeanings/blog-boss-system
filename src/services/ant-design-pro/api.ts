@@ -2,7 +2,6 @@
 /* eslint-disable */
 import { request } from 'umi';
 
-/** 获取当前的用户 GET /api/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
   return request<API.CurrentUser>('/api/currentUser', {
     method: 'GET',
@@ -10,7 +9,6 @@ export async function currentUser(options?: { [key: string]: any }) {
   });
 }
 
-/** 登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
   return request<Record<string, any>>('/api/login/outLogin', {
     method: 'POST',
@@ -18,7 +16,6 @@ export async function outLogin(options?: { [key: string]: any }) {
   });
 }
 
-/** 登录接口 POST /api/login/account */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
   return request<API.LoginResult>('/api/login/account', {
     method: 'POST',
@@ -30,14 +27,12 @@ export async function login(body: API.LoginParams, options?: { [key: string]: an
   });
 }
 
-/** 获取规则列表 GET /api/rule */
 export async function queryRule(params?: { [key: string]: any }) {
   return request('/api/rule', {
     params,
   });
 }
 
-/** 新建规则 PUT /api/rule */
 export async function updateRule(params?: { [key: string]: any }) {
   return request('/api/rule', {
     method: 'POST',
@@ -48,7 +43,6 @@ export async function updateRule(params?: { [key: string]: any }) {
   });
 }
 
-/** 新建规则 POST /api/rule */
 export async function addRule(params?: { [key: string]: any }) {
   return request('/api/rule', {
     method: 'POST',
@@ -59,7 +53,6 @@ export async function addRule(params?: { [key: string]: any }) {
   });
 }
 
-/** 删除规则 DELETE /api/rule */
 export async function removeRule(params: { key: number[] }) {
   return request('/api/rule', {
     method: 'POST',
@@ -70,14 +63,12 @@ export async function removeRule(params: { key: number[] }) {
   });
 }
 
-/** 获取文章列表 GET /api/rule */
 export async function queryArticle(params?: { [key: string]: any }) {
   return request('/api/article', {
     params,
   });
 }
 
-/** 新建文章 PUT /api/rule */
 export async function updateArticle(params?: { [key: string]: any }) {
   return request('/api/article', {
     method: 'POST',
@@ -88,7 +79,6 @@ export async function updateArticle(params?: { [key: string]: any }) {
   });
 }
 
-/** 新建文章 POST /api/rule */
 export async function addArticle(params?: { [key: string]: any }) {
   return request('/api/article', {
     method: 'POST',
@@ -99,7 +89,6 @@ export async function addArticle(params?: { [key: string]: any }) {
   });
 }
 
-/** 删除文章 DELETE /api/rule */
 export async function removeArticle(params: { key: number[] }) {
   return request('/api/article', {
     method: 'POST',

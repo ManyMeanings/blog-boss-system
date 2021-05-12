@@ -1,48 +1,81 @@
-import { Card, Col, Row } from 'antd';
-import React, { useState } from 'react';
+import { Card, Col, Row, message } from 'antd';
+import { HomeOutlined, FieldTimeOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
 import { GridContent } from '@ant-design/pro-layout';
 import Articles from './components/Articles';
+import { history } from 'umi';
+import { queryArticle, queryRule } from '@/services/ant-design-pro/api';
+import moment from 'moment';
 import styles from './index.less';
 
-const operationTabList = [
-  {
-    key: 'articles',
-    tab: (
-      <span>
-        文章 <span style={{ fontSize: 14 }}>(8)</span>
-      </span>
-    ),
-  },
-];
-const list: API.ArticleListItem[] = [
-  {
-    key: 12,
-    title: 'Alipay',
-    lastModifyAt: '11',
-    star: 124,
-    like: 200,
-    content:
-      '段落示意：蚂蚁金服设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，提供跨越设计与开发的体验解决方案。蚂蚁金服设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，提供跨越设计与开发的体验解决方案。',
-  },
-];
-
 const Center: React.FC = () => {
+  const [account, setAccount] = useState<API.AccountListItem>();
+  const [articleList, setArticleList] = useState<API.ArticleListItem[]>();
+  const [loading, setLoading] = useState<boolean>(true);
   const tabKey = 'article';
-  const currentUser = {
-    avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
-    name: 'tao',
+
+  const asyncFetch = () => {
+    setLoading(true);
+    const key = history.location.query?.key || 51;
+    queryRule({ key })
+      .then((json) => {
+        setAccount(json.data[0]);
+        return queryArticle({ authorKey: key });
+      })
+      .then((json) => {
+        setArticleList(json.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        message.error('请求失败');
+      });
   };
-  const dataLoading = false;
+
+  useEffect(() => {
+    asyncFetch();
+  }, []);
+
+  const operationTabList = [
+    {
+      key: 'articles',
+      tab: (
+        <span>
+          文章 <span style={{ fontSize: 14 }}>({articleList?.length || 0})</span>
+        </span>
+      ),
+    },
+  ];
+
   return (
     <GridContent>
       <Row gutter={24}>
         <Col lg={7} md={24}>
-          <Card bordered={false} style={{ marginBottom: 24 }} loading={dataLoading}>
-            {!dataLoading && (
-              <div className={styles.avatarHolder}>
-                <img alt="" src={currentUser.avatar} />
-                <div className={styles.name}>{currentUser.name}</div>
-              </div>
+          <Card bordered={false} style={{ marginBottom: 24 }} loading={loading}>
+            {!loading && (
+              <>
+                <div className={styles.avatarHolder}>
+                  <img alt="" src={account?.avatar} />
+                  <div className={styles.name}>{account?.name}</div>
+                </div>
+                <div className={styles.detail}>
+                  <p>
+                    <HomeOutlined
+                      style={{
+                        marginRight: 8,
+                      }}
+                    />
+                    {account?.location}
+                  </p>
+                  <p>
+                    <FieldTimeOutlined
+                      style={{
+                        marginRight: 8,
+                      }}
+                    />
+                    {moment(account?.lastLoginAt).format('YYYY-MM-DD')}
+                  </p>
+                </div>
+              </>
             )}
           </Card>
         </Col>
@@ -53,7 +86,7 @@ const Center: React.FC = () => {
             tabList={operationTabList}
             activeTabKey={tabKey}
           >
-            <Articles list={list} />
+            <Articles list={articleList || []} />
           </Card>
         </Col>
       </Row>

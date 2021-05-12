@@ -1,4 +1,4 @@
-import { StarTwoTone, LikeOutlined } from '@ant-design/icons';
+import { StarTwoTone, LikeTwoTone, EyeTwoTone } from '@ant-design/icons';
 import { List, Tag } from 'antd';
 import React from 'react';
 import ArticleListContent from '../ArticleListContent';
@@ -29,21 +29,18 @@ const Articles: React.FC<ArticlesProps> = (props) => {
         <List.Item
           key={item.key}
           actions={[
+            <IconText key="like" icon={<EyeTwoTone />} text={item.views} />,
             <IconText key="star" icon={<StarTwoTone />} text={item.star} />,
-            <IconText key="like" icon={<LikeOutlined />} text={item.like} />,
+            <IconText key="like" icon={<LikeTwoTone />} text={item.like} />,
           ]}
         >
           <List.Item.Meta
-            title={
-              <a className={styles.listItemMetaTitle}>
-                {item.title}
-              </a>
-            }
+            title={<a className={styles.listItemMetaTitle}>{item.title}</a>}
             description={
               <span>
-                <Tag>Ant Design</Tag>
-                <Tag>设计语言</Tag>
-                <Tag>蚂蚁金服</Tag>
+                {item.tags?.map((tag) => (
+                  <Tag>{tag}</Tag>
+                ))}
               </span>
             }
           />

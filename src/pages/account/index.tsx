@@ -7,7 +7,7 @@ import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText } from '@ant-design/pro-form';
 import UpdateForm from './components/UpdateForm';
 import { queryRule, updateRule, addRule, removeRule } from '@/services/ant-design-pro/api';
-import { useAccess } from 'umi';
+import { useAccess, history } from 'umi';
 import moment from 'moment';
 /**
  * 添加节点
@@ -70,11 +70,11 @@ const handleUpdate = async (fields: API.AccountListParams) => {
     });
     hide();
 
-    message.success('配置成功');
+    message.success('修改成功');
     return true;
   } catch (error) {
     hide();
-    message.error('配置失败请重试！');
+    message.error('修改失败请重试！');
     return false;
   }
 };
@@ -95,7 +95,18 @@ const Account: React.FC = () => {
       render: (dom, record) => (
         <Space>
           <Avatar src={record.avatar} />
-          {dom}
+          <a
+            onClick={() => {
+              history.push({
+                pathname: '/center',
+                query: {
+                  key: record.key.toString(),
+                },
+              });
+            }}
+          >
+            {dom}
+          </a>
         </Space>
       ),
     },
