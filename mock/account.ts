@@ -1,27 +1,28 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Request, Response } from 'express';
-import moment from 'moment';
 import { parse } from 'url';
 
 // mock tableListDataSource
 const genList = (current: number, pageSize: number) => {
-  const tableListDataSource: API.RuleListItem[] = [];
+  const tableListDataSource: API.AccountListItem[] = [];
 
   for (let i = 0; i < pageSize; i += 1) {
     const index = (current - 1) * 10 + i;
     tableListDataSource.push({
       key: index,
-      name: `user ${index}`,
+      name: `用户 ${index}`,
       status: Math.floor(Math.random() * 2),
-      lastLoginAt: moment().format('YYYY-MM-DD HH:MM:SS'),
+      lastLoginAt: new Date().getTime() - Math.floor(Math.random() * 10) * 24 * 60 * 60 * 1000,
       activity: Math.ceil(Math.random() * 100),
+      avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+      location: '浙江省杭州市',
     });
   }
   tableListDataSource.reverse();
   return tableListDataSource;
 };
 
-let tableListDataSource = genList(1, 100);
+let tableListDataSource: API.AccountListItem[] = genList(1, 50);
 
 function getRule(req: Request, res: Response, u: string) {
   let realUrl = u;
@@ -29,7 +30,7 @@ function getRule(req: Request, res: Response, u: string) {
     realUrl = req.url;
   }
   const { current = 1, pageSize = 10 } = req.query;
-  const params = (parse(realUrl, true).query as unknown) as API.TableListParams;
+  const params = (parse(realUrl, true).query as unknown) as API.AccountListParams;
 
   let dataSource = tableListDataSource;
   const sorter = JSON.parse(params.sorter || ('{}' as any));
@@ -100,6 +101,12 @@ function postRule(req: Request, res: Response, u: string, b: Request) {
 
   const body = (b && b.body) || req.body;
   const { method, name, key } = body;
+  let { avatar, location } = body;
+
+  if (!avatar)
+    avatar = 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png';
+
+  if (!location) location = '中国';
 
   switch (method) {
     /* eslint no-case-declarations:0 */
@@ -108,12 +115,14 @@ function postRule(req: Request, res: Response, u: string, b: Request) {
       break;
     case 'post':
       (() => {
-        const newRule: API.RuleListItem = {
+        const newRule: API.AccountListItem = {
           key: tableListDataSource.length,
           name,
-          status: 0,
-          lastLoginAt: moment().format('YYYY-MM-DD HH:MM:SS'),
-          activity: 15,
+          status: Math.floor(Math.random() * 2),
+          lastLoginAt: new Date().getTime(),
+          activity: 25,
+          avatar,
+          location,
         };
         tableListDataSource.unshift(newRule);
         return res.json(newRule);
@@ -125,8 +134,8 @@ function postRule(req: Request, res: Response, u: string, b: Request) {
         let newRule = {};
         tableListDataSource = tableListDataSource.map((item) => {
           if (item.key === key) {
-            newRule = { ...item, name };
-            return { ...item, name };
+            newRule = { ...item, name, avatar, location };
+            return { ...item, name, avatar, location };
           }
           return item;
         });

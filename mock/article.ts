@@ -10,14 +10,14 @@ const genList = (current: number, pageSize: number) => {
     const index = (current - 1) * 10 + i;
     tableListDataSource.push({
       key: index,
-      title: `title ${index}`,
-      author: `author ${index}`,
-      authorKey: 1,
+      title: `文章 ${index}`,
+      author: `用户 ${index}`,
+      authorKey: index,
       type: Math.floor(Math.random() * 2).toString(),
       views: Math.floor(Math.random() * 100),
-      updateAt: new Date().getTime(),
-      content: '',
-      tags: ['React', 'Vue'],
+      updateAt: new Date().getTime() - Math.floor(Math.random() * 10) * 24 * 60 * 60 * 1000,
+      content: `<p>这是<b>文章 ${index}</b>的内容</p>`,
+      tags: ['React', 'Ant Design'],
       star: Math.floor(Math.random() * 100),
       like: Math.floor(Math.random() * 100),
     });
@@ -26,7 +26,7 @@ const genList = (current: number, pageSize: number) => {
   return tableListDataSource;
 };
 
-let tableListDataSource = genList(1, 100);
+let tableListDataSource = genList(1, 50);
 
 function getArticle(req: Request, res: Response, u: string) {
   let realUrl = u;

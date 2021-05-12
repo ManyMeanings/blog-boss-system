@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message } from 'antd';
+import { Button, message, Space, Avatar } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -8,13 +8,14 @@ import { ModalForm, ProFormText } from '@ant-design/pro-form';
 import UpdateForm from './components/UpdateForm';
 import { queryRule, updateRule, addRule, removeRule } from '@/services/ant-design-pro/api';
 import { useAccess } from 'umi';
+import moment from 'moment';
 /**
  * 添加节点
  *
  * @param fields
  */
 
-const handleAdd = async (fields: API.RuleListItem) => {
+const handleAdd = async (fields: API.AccountListItem) => {
   const hide = message.loading('正在添加');
 
   try {
@@ -35,7 +36,7 @@ const handleAdd = async (fields: API.RuleListItem) => {
  * @param selectedRows
  */
 
-const handleRemove = async (selectedRows: API.RuleListItem[]) => {
+const handleRemove = async (selectedRows: API.AccountListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
 
@@ -58,12 +59,14 @@ const handleRemove = async (selectedRows: API.RuleListItem[]) => {
  *
  * @param fields
  */
-const handleUpdate = async (fields: API.TableListParams) => {
+const handleUpdate = async (fields: API.AccountListParams) => {
   const hide = message.loading('正在修改');
   try {
     await updateRule({
       name: fields.name,
       key: fields.key,
+      location: fields.location,
+      avatar: fields.avatar,
     });
     hide();
 
@@ -76,19 +79,30 @@ const handleUpdate = async (fields: API.TableListParams) => {
   }
 };
 
-const Table: React.FC = () => {
+const Account: React.FC = () => {
   /** 新建窗口的弹窗 */
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [selectedRowsState, setSelectedRows] = useState<API.RuleListItem[]>([]);
-  const [currentRow, setCurrentRow] = useState<API.RuleListItem>();
+  const [selectedRowsState, setSelectedRows] = useState<API.AccountListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<API.AccountListItem>();
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const access = useAccess();
 
-  const columns: ProColumns<API.RuleListItem>[] = [
+  const columns: ProColumns<API.AccountListItem>[] = [
     {
       title: '用户名',
       dataIndex: 'name',
+      render: (dom, record) => (
+        <Space>
+          <Avatar src={record.avatar} />
+          {dom}
+        </Space>
+      ),
+    },
+    {
+      title: '地址',
+      dataIndex: 'location',
+      search: false,
     },
     {
       title: '状态',
@@ -112,8 +126,8 @@ const Table: React.FC = () => {
       sorter: true,
       dataIndex: 'lastLoginAt',
       hideInForm: true,
-      valueType: 'date',
       search: false,
+      renderText: (text) => moment(text).format('YYYY-MM-DD HH:MM:SS'),
     },
     {
       title: '活跃度',
@@ -121,6 +135,12 @@ const Table: React.FC = () => {
       dataIndex: 'activity',
       hideInForm: true,
       valueType: 'progress',
+      search: false,
+    },
+    {
+      title: '头像',
+      dataIndex: 'avatar',
+      hideInTable: true,
       search: false,
     },
     {
@@ -156,7 +176,7 @@ const Table: React.FC = () => {
   ];
   return (
     <PageContainer>
-      <ProTable<API.RuleListItem, API.PageParams>
+      <ProTable<API.AccountListItem, API.PageParams>
         headerTitle="用户表格"
         actionRef={actionRef}
         rowKey="key"
@@ -216,7 +236,7 @@ const Table: React.FC = () => {
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
-          const success = await handleAdd(value as API.RuleListItem);
+          const success = await handleAdd(value as API.AccountListItem);
 
           if (success) {
             handleModalVisible(false);
@@ -238,6 +258,8 @@ const Table: React.FC = () => {
           name="name"
           label="用户名"
         />
+        <ProFormText width="md" name="location" label="地址" />
+        <ProFormText width="md" name="avatar" label="头像" />
       </ModalForm>
       {currentRow && Object.keys(currentRow).length ? (
         <UpdateForm
@@ -263,4 +285,4 @@ const Table: React.FC = () => {
   );
 };
 
-export default Table;
+export default Account;

@@ -2,10 +2,10 @@ import React from 'react';
 import { Form, Button, Modal, Input } from 'antd';
 
 export interface UpdateFormProps {
-  onCancel: (flag?: boolean, formVals?: API.TableListParams) => void;
-  onSubmit: (values: API.TableListParams) => void;
+  onCancel: (flag?: boolean, formVals?: API.AccountListParams) => void;
+  onSubmit: (values: API.AccountListParams) => void;
   updateModalVisible: boolean;
-  values: API.TableListParams;
+  values: API.AccountListParams;
 }
 const FormItem = Form.Item;
 
@@ -44,6 +44,12 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         >
           <Input />
         </FormItem>
+        <FormItem name="location" label="地址">
+          <Input />
+        </FormItem>
+        <FormItem name="avatar" label="头像">
+          <Input />
+        </FormItem>
       </>
     );
   };
@@ -74,6 +80,8 @@ const UpdateForm: React.FC<UpdateFormProps> = (props) => {
         form={form}
         initialValues={{
           name: props.values.name,
+          location: props.values.location,
+          avatar: props.values.avatar,
         }}
       >
         {renderContent()}

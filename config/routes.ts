@@ -30,9 +30,9 @@
   {
     name: '用户表格',
     icon: 'table',
-    path: '/table',
+    path: '/account',
     access: 'canAdmin',
-    component: './table',
+    component: './account',
   },
   {
     name: '文章表格',

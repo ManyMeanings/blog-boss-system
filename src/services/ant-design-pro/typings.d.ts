@@ -34,24 +34,28 @@ declare namespace API {
     pageSize?: number;
   };
 
-  type TableListParams = {
+  type AccountListParams = {
     key?: number;
     name?: string;
     status?: number;
-    lastLoginAt?: string;
+    lastLoginAt?: number;
     activity?: number;
+    location?: string;
+    avatar?: string;
     pageSize?: number;
     currentPage?: number;
     filter?: Record<string, any[]>;
     sorter?: Record<string, any>;
   };
 
-  type RuleListItem = {
+  type AccountListItem = {
     key: number;
     name?: string;
     status?: number;
-    lastLoginAt?: string;
+    lastLoginAt?: number;
     activity?: number;
+    location?: string;
+    avatar?: string;
   };
 
   type ArticleListParams = {

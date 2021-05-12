@@ -9,6 +9,7 @@ declare module '*.jpg';
 declare module '*.jpeg';
 declare module '*.gif';
 declare module '*.bmp';
+declare module '*.ts';
 declare module '*.tiff';
 declare module 'omit.js';
 declare module 'numeral';
