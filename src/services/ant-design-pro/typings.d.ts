@@ -58,10 +58,14 @@ declare namespace API {
     key?: number;
     title?: string;
     author?: string;
+    authorKey?: number;
     type?: string;
     views?: number;
-    lastModifyAt?: string;
+    updateAt?: number;
     content?: string;
+    tags?: string[];
+    star?: number;
+    like?: number;
     pageSize?: number;
     currentPage?: number;
     filter?: Record<string, any[]>;
@@ -70,12 +74,13 @@ declare namespace API {
 
   type ArticleListItem = {
     key: number;
-    title: string;
+    title?: string;
     author?: string;
+    authorKey: number;
     type?: string;
     views?: number;
-    lastModifyAt?: string;
-    content: string;
+    updateAt?: number;
+    content?: string;
     tags?: string[];
     star?: number;
     like?: number;
@@ -107,28 +112,6 @@ declare namespace API {
     errorMessage?: string;
     /** 业务上的请求是否成功 */
     success?: boolean;
-  };
-
-  type NoticeIconList = {
-    data?: NoticeIconItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
-
-  type NoticeIconItemType = 'notification' | 'message' | 'event';
-
-  type NoticeIconItem = {
-    id?: string;
-    extra?: string;
-    key?: string;
-    read?: boolean;
-    avatar?: string;
-    title?: string;
-    status?: string;
-    datetime?: string;
-    description?: string;
-    type?: NoticeIconItemType;
   };
 
   export interface VisitDataType {
@@ -176,5 +159,4 @@ declare namespace API {
     value: string;
     type: string;
   }
-
 }

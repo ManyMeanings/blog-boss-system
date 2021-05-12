@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Form, Button, Modal, Input, Select } from 'antd';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import EditableTagGroup from './EditableTagGroup';
+import { useAccess } from 'umi';
 
 export interface CreateFormProps {
   onCancel: (flag?: boolean, formVals?: API.ArticleListParams) => void;
@@ -17,15 +19,20 @@ const formLayout = {
 
 const CreateForm: React.FC<CreateFormProps> = (props) => {
   const [form] = Form.useForm();
+  const access = useAccess();
 
   const { onSubmit: handleCreate, onCancel: handleModalVisible, createModalVisible } = props;
 
   const [text, handleText] = useState<string>('');
+  const [tags, handleTags] = useState<string[]>([]);
 
   const submit = async () => {
     const fieldsValue = await form.validateFields();
-    const content = {content: text};
-    handleCreate({ ...fieldsValue, ...content });
+    const content = { content: text };
+    const author = access.canAdmin
+      ? { author: 'admin', authorKey: 0 }
+      : { author: 'user', authorKey: 1 };
+    handleCreate({ ...fieldsValue, ...content, ...{ tags }, ...author });
   };
 
   const renderContent = () => {
@@ -59,9 +66,10 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
             <Select.Option value="1">转载</Select.Option>
           </Select>
         </FormItem>
-        <FormItem
-          label="内容"
-        >
+        <FormItem label="标签">
+          <EditableTagGroup tags={tags} handleTags={handleTags} />
+        </FormItem>
+        <FormItem label="内容">
           <ReactQuill value={text} onChange={handleText} />
         </FormItem>
       </>

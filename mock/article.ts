@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Request, Response } from 'express';
-import moment from 'moment';
 import { parse } from 'url';
 
 // mock tableListDataSource
@@ -13,10 +12,14 @@ const genList = (current: number, pageSize: number) => {
       key: index,
       title: `title ${index}`,
       author: `author ${index}`,
+      authorKey: 1,
       type: Math.floor(Math.random() * 2).toString(),
       views: Math.floor(Math.random() * 100),
-      lastModifyAt: moment().format('YYYY-MM-DD HH:MM:SS'),
+      updateAt: new Date().getTime(),
       content: '',
+      tags: ['React', 'Vue'],
+      star: Math.floor(Math.random() * 100),
+      like: Math.floor(Math.random() * 100),
     });
   }
   tableListDataSource.reverse();
@@ -84,7 +87,15 @@ function getArticle(req: Request, res: Response, u: string) {
   }
 
   if (params.key) {
-    dataSource = dataSource.filter((data) => data?.key?.toString().includes(params.key?.toString() || ''));
+    dataSource = dataSource.filter((data) =>
+      data?.key?.toString().includes(params.key?.toString() || ''),
+    );
+  }
+
+  if (params.content) {
+    dataSource = dataSource.filter((data) =>
+      data?.content?.toString().includes(params.content?.toString() || ''),
+    );
   }
 
   const finalDataSource = [...dataSource].slice(
@@ -109,7 +120,7 @@ function postArticle(req: Request, res: Response, u: string, b: Request) {
   }
 
   const body = (b && b.body) || req.body;
-  const { method, title, key, type, content } = body;
+  const { method, title, key, type, content, tags, authorKey, author } = body;
 
   switch (method) {
     /* eslint no-case-declarations:0 */
@@ -121,11 +132,15 @@ function postArticle(req: Request, res: Response, u: string, b: Request) {
         const newArticle: API.ArticleListItem = {
           key: tableListDataSource.length,
           title,
-          author: 'admin',
+          author,
+          authorKey,
           type,
-          views: 0,
-          lastModifyAt: moment().format('YYYY-MM-DD HH:MM:SS'),
+          views: 1,
+          updateAt: new Date().getTime(),
           content,
+          tags,
+          star: 0,
+          like: 0,
         };
         tableListDataSource.unshift(newArticle);
         return res.json(newArticle);
@@ -137,8 +152,8 @@ function postArticle(req: Request, res: Response, u: string, b: Request) {
         let newArticle = {};
         tableListDataSource = tableListDataSource.map((item) => {
           if (item.key === key) {
-            newArticle = { ...item, title, type, content };
-            return { ...item, title, type, content };
+            newArticle = { ...item, title, type, content, tags };
+            return { ...item, title, type, content, tags };
           }
           return item;
         });

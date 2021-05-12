@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message } from 'antd';
+import { Button, message, Space, Tag } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -7,6 +7,7 @@ import ProTable from '@ant-design/pro-table';
 import UpdateForm from './components/UpdateForm';
 import CreateForm from './components/CreateForm';
 import { useAccess, history } from 'umi';
+import moment from 'moment';
 
 import {
   queryArticle,
@@ -72,20 +73,20 @@ const handleUpdate = async (fields: API.ArticleListParams) => {
       type: fields.type,
       content: fields.content,
       key: fields.key,
+      tags: fields.tags,
     });
     hide();
 
-    message.success('配置成功');
+    message.success('修改成功');
     return true;
   } catch (error) {
     hide();
-    message.error('配置失败请重试！');
+    message.error('修改失败请重试！');
     return false;
   }
 };
 
 const ArticleTableList: React.FC = () => {
-  /** 新建窗口的弹窗 */
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   const [selectedRowsState, setSelectedRows] = useState<API.ArticleListItem[]>([]);
@@ -118,7 +119,21 @@ const ArticleTableList: React.FC = () => {
       title: '作者',
       dataIndex: 'author',
       hideInForm: true,
+      search: false,
     },
+    {
+      title: '标签',
+      dataIndex: 'tags',
+      search: false,
+      render: (_, record) => (
+        <Space>
+          {record.tags?.map((item) => (
+            <Tag>{item}</Tag>
+          ))}
+        </Space>
+      ),
+    },
+
     {
       title: '类别',
       dataIndex: 'type',
@@ -144,18 +159,32 @@ const ArticleTableList: React.FC = () => {
       search: false,
     },
     {
-      title: '上次修改时间',
+      title: '点赞',
       sorter: true,
-      dataIndex: 'lastModifyAt',
+      dataIndex: 'like',
       hideInForm: true,
       search: false,
+    },
+    {
+      title: '收藏',
+      sorter: true,
+      dataIndex: 'star',
+      hideInForm: true,
+      search: false,
+    },
+    {
+      title: '上次修改时间',
+      sorter: true,
+      dataIndex: 'updateAt',
+      hideInForm: true,
+      search: false,
+      renderText: (text) => moment(text).format('YYYY-MM-DD HH:MM:SS'),
     },
     {
       title: '内容',
       sorter: true,
       dataIndex: 'content',
       hideInForm: true,
-      search: false,
       hideInTable: true,
     },
     {
