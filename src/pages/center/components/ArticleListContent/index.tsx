@@ -15,6 +15,9 @@ export interface ApplicationsProps {
 
 const getDescription = (content: string) => {
   const start = content.search('<p>');
+  if (start === -1) {
+    return '';
+  }
   const length = content.search('</p>') + 3 - start;
 
   return content.substr(start, length);
