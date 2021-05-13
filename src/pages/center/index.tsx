@@ -49,7 +49,7 @@ const Center: React.FC = () => {
   return (
     <GridContent>
       <Row gutter={24}>
-        <Col lg={7} md={24}>
+        <Col lg={7} md={24} xs={24}>
           <Card bordered={false} style={{ marginBottom: 24 }} loading={loading}>
             {!loading && (
               <>
@@ -79,7 +79,7 @@ const Center: React.FC = () => {
             )}
           </Card>
         </Col>
-        <Col lg={17} md={24}>
+        <Col lg={17} md={24} xs={24}>
           <Card
             className={styles.tabsCard}
             bordered={false}
