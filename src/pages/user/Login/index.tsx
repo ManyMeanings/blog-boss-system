@@ -105,7 +105,7 @@ const Login: React.FC = () => {
             }}
           >
             <Alert
-              message="使用 admin 账号登陆获得所有权限，使用 user 账号登陆收到权限控制。"
+              message="使用 admin 账号登陆获得所有权限，使用 user 账号登陆受到权限控制。"
               type="success"
               style={{
                 marginBottom: 24,
