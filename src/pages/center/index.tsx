@@ -56,24 +56,24 @@ const Center: React.FC = () => {
                 <div className={styles.avatarHolder}>
                   <img alt="" src={account?.avatar} />
                   <div className={styles.name}>{account?.name}</div>
-                </div>
-                <div className={styles.detail}>
-                  <p>
-                    <HomeOutlined
-                      style={{
-                        marginRight: 8,
-                      }}
-                    />
-                    {account?.location}
-                  </p>
-                  <p>
-                    <FieldTimeOutlined
-                      style={{
-                        marginRight: 8,
-                      }}
-                    />
-                    {moment(account?.lastLoginAt).format('YYYY-MM-DD')}
-                  </p>
+                  <div className={styles.detail}>
+                    <p>
+                      <HomeOutlined
+                        style={{
+                          marginRight: 8,
+                        }}
+                      />
+                      {account?.location}
+                    </p>
+                    <p>
+                      <FieldTimeOutlined
+                        style={{
+                          marginRight: 8,
+                        }}
+                      />
+                      {moment(account?.lastLoginAt).format('YYYY-MM-DD')}
+                    </p>
+                  </div>
                 </div>
               </>
             )}

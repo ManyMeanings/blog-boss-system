@@ -17,7 +17,6 @@ const columns = [
     title: '搜索关键词',
     dataIndex: 'keyword',
     key: 'keyword',
-    render: (text: React.ReactNode) => <a href="/">{text}</a>,
   },
   {
     title: '用户数',

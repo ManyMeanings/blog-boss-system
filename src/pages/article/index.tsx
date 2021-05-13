@@ -210,7 +210,7 @@ const ArticleTableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => {
-        if (access.canAdmin) {
+        if (access.canAdmin || record.author === 'user') {
           return [
             <a
               key="config"

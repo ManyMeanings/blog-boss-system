@@ -29,7 +29,10 @@ const Content: React.FC = () => {
   return (
     <PageContainer>
       <Card loading={loading} style={{ marginBottom: '16px' }} title={article?.title || ''}>
-        <div dangerouslySetInnerHTML={{ __html: article?.content || '' }}></div>
+        <div
+          className="ql-editor"
+          dangerouslySetInnerHTML={{ __html: article?.content || '' }}
+        ></div>
       </Card>
     </PageContainer>
   );

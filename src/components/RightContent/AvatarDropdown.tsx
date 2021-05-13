@@ -18,7 +18,7 @@ const loginOut = async () => {
   await outLogin();
   const { query = {}, pathname } = history.location;
   const { redirect } = query;
-  // Note: There may be security issues, please note
+
   if (window.location.pathname !== '/user/login' && !redirect) {
     history.replace({
       pathname: '/user/login',

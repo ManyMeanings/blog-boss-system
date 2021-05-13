@@ -30,8 +30,8 @@ const CreateForm: React.FC<CreateFormProps> = (props) => {
     const fieldsValue = await form.validateFields();
     const content = { content: text };
     const author = access.canAdmin
-      ? { author: 'admin', authorKey: 0 }
-      : { author: 'user', authorKey: 1 };
+      ? { author: 'admin', authorKey: 51 }
+      : { author: 'user', authorKey: 50 };
     handleCreate({ ...fieldsValue, ...content, ...{ tags }, ...author });
   };
 

@@ -38,7 +38,7 @@ const ProportionSales = ({
       <h4 style={{ marginTop: 8, marginBottom: 32 }}>饼图</h4>
       <Pie
         hasLegend
-        subTitle={salesType === 'income' ? '收入' : '用户数'}
+        subTitle={salesType === 'income' ? '' : '用户数'}
         total={() => {
           const total = salesPieData.reduce((pre, now) => now.y + pre, 0);
           if (salesType === 'income') {

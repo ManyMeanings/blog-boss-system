@@ -25,7 +25,7 @@ interface AnalysisProps {
 }
 
 interface AnalysisState {
-  salesType: 'income' | 'from' ;
+  salesType: 'income' | 'from';
   currentTabKey: string;
   rangePickerValue: RangePickerValue;
 }
@@ -72,25 +72,25 @@ class Analysis extends Component<AnalysisProps, AnalysisState> {
   };
 
   handleRangePickerChange = (rangePickerValue: RangePickerValue) => {
-    const { dispatch } = this.props;
+    // const { dispatch } = this.props;
     this.setState({
       rangePickerValue,
     });
 
-    dispatch({
-      type: 'dashboardAndanalysis/fetchSalesData',
-    });
+    // dispatch({
+    //   type: 'dashboardAndanalysis/fetchSalesData',
+    // });
   };
 
   selectDate = (type: 'today' | 'week' | 'month' | 'year') => {
-    const { dispatch } = this.props;
+    // const { dispatch } = this.props;
     this.setState({
       rangePickerValue: getTimeDistance(type),
     });
 
-    dispatch({
-      type: 'dashboardAndanalysis/fetchSalesData',
-    });
+    // dispatch({
+    //   type: 'dashboardAndanalysis/fetchSalesData',
+    // });
   };
 
   isActive = (type: 'today' | 'week' | 'month' | 'year') => {
@@ -115,16 +115,71 @@ class Analysis extends Component<AnalysisProps, AnalysisState> {
   };
 
   render() {
-    const { rangePickerValue, salesType} = this.state;
+    const { rangePickerValue, salesType } = this.state;
     const { dashboardAndanalysis, loading } = this.props;
-    const {
-      visitData,
-      visitData2,
-      salesData,
-      searchData,
-      typeData1,
-      typeData2,
-    } = dashboardAndanalysis;
+    const { visitData2, salesData, searchData, typeData1, typeData2 } = dashboardAndanalysis;
+    const visitData = [
+      {
+        x: '2021-05-13',
+        y: 8846,
+      },
+      {
+        x: '2021-05-14',
+        y: 8875,
+      },
+      {
+        x: '2021-05-15',
+        y: 10211,
+      },
+      {
+        x: '2021-05-16',
+        y: 5679,
+      },
+      {
+        x: '2021-05-17',
+        y: 7756,
+      },
+      {
+        x: '2021-05-18',
+        y: 9998,
+      },
+      {
+        x: '2021-05-19',
+        y: 8798,
+      },
+      {
+        x: '2021-05-20',
+        y: 7788,
+      },
+      {
+        x: '2021-05-21',
+        y: 7654,
+      },
+      {
+        x: '2021-05-22',
+        y: 6543,
+      },
+      {
+        x: '2021-05-23',
+        y: 6189,
+      },
+      {
+        x: '2021-05-24',
+        y: 6122,
+      },
+      {
+        x: '2021-05-25',
+        y: 7875,
+      },
+      {
+        x: '2021-05-26',
+        y: 5345,
+      },
+      {
+        x: '2021-05-27',
+        y: 8876,
+      },
+    ];
     let salesPieData;
     if (salesType === 'income') {
       salesPieData = typeData1;
@@ -151,11 +206,7 @@ class Analysis extends Component<AnalysisProps, AnalysisState> {
             }}
           >
             <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-              <TopSearch
-                loading={loading}
-                visitData2={visitData2}
-                searchData={searchData}
-              />
+              <TopSearch loading={loading} visitData2={visitData2} searchData={searchData} />
             </Col>
             <Col xl={12} lg={24} md={24} sm={24} xs={24}>
               <ProportionSales

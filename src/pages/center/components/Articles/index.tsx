@@ -2,6 +2,7 @@ import { StarTwoTone, LikeTwoTone, EyeTwoTone } from '@ant-design/icons';
 import { List, Tag } from 'antd';
 import React from 'react';
 import ArticleListContent from '../ArticleListContent';
+import { history } from 'umi';
 import styles from './index.less';
 
 export interface ArticlesProps {
@@ -35,7 +36,21 @@ const Articles: React.FC<ArticlesProps> = (props) => {
           ]}
         >
           <List.Item.Meta
-            title={<a className={styles.listItemMetaTitle}>{item.title}</a>}
+            title={
+              <a
+                className={styles.listItemMetaTitle}
+                onClick={() =>
+                  history.push({
+                    pathname: '/content',
+                    query: {
+                      key: item.key.toString(),
+                    },
+                  })
+                }
+              >
+                {item.title}
+              </a>
+            }
             description={
               <span>
                 {item.tags?.map((tag) => (

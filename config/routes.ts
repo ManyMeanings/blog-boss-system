@@ -31,7 +31,6 @@
     name: '用户表格',
     icon: 'table',
     path: '/account',
-    access: 'canAdmin',
     component: './account',
   },
   {

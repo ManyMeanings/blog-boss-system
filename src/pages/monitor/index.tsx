@@ -150,6 +150,52 @@ const tags = [
     value: 98,
     type: 2,
   },
+  {
+    name: '图表',
+    value: 38,
+  },
+  {
+    name: '请求',
+    value: 49,
+  },
+  {
+    name: '计算机网络',
+    value: 80,
+    type: 0,
+  },
+  {
+    name: '数据结构',
+    value: 75,
+    type: 1,
+  },
+  {
+    name: '算法',
+    value: 98,
+    type: 2,
+  },
+  {
+    name: '图表',
+    value: 38,
+  },
+  {
+    name: '请求',
+    value: 49,
+  },
+  {
+    name: '计算机网络',
+    value: 80,
+    type: 0,
+  },
+  {
+    name: '数据结构',
+    value: 75,
+    type: 1,
+  },
+  {
+    name: '算法',
+    value: 98,
+    type: 2,
+  },
 ];
 
 const Monitor: React.FC = () => {
@@ -161,17 +207,10 @@ const Monitor: React.FC = () => {
             <Card title="网站实时数据" bordered={false}>
               <Row>
                 <Col md={6} sm={12} xs={24}>
-                  <Statistic
-                    title="今日收入"
-                    suffix="元"
-                    value={numeral(10115).format('0,0')}
-                  />
+                  <Statistic title="今日收入" suffix="元" value={numeral(10115).format('0,0')} />
                 </Col>
                 <Col md={6} sm={12} xs={24}>
-                  <Statistic
-                    title="在线用户数量"
-                    value={numeral(1234).format('0,0')}
-                  />
+                  <Statistic title="在线用户数量" value={numeral(1234).format('0,0')} />
                 </Col>
                 <Col md={6} sm={12} xs={24}>
                   <Countdown title="剩余时间" value={deadline} format="HH:mm:ss:SSS" />
