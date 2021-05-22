@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import { queryArticle } from '@/services/ant-design-pro/api';
 import { history } from 'umi';
+import ReactHtmlParser from 'react-html-parser';
 import 'react-quill/dist/quill.snow.css';
 
 const Content: React.FC = () => {
@@ -31,8 +32,10 @@ const Content: React.FC = () => {
       <Card loading={loading} style={{ marginBottom: '16px' }} title={article?.title || ''}>
         <div
           className="ql-editor"
-          dangerouslySetInnerHTML={{ __html: article?.content || '' }}
-        ></div>
+          // dangerouslySetInnerHTML={{ __html: article?.content || '' }}
+        >
+          {ReactHtmlParser(article?.content || '')}
+        </div>
       </Card>
     </PageContainer>
   );

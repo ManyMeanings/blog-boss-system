@@ -2,6 +2,7 @@ import React from 'react';
 import moment from 'moment';
 import styles from './index.less';
 import 'react-quill/dist/quill.snow.css';
+import ReactHtmlParser from 'react-html-parser';
 
 export interface ApplicationsProps {
   data: {
@@ -27,8 +28,10 @@ const ArticleListContent: React.FC<ApplicationsProps> = ({ data: { content, upda
   <div className={styles.listContent}>
     <div
       className={styles.description}
-      dangerouslySetInnerHTML={{ __html: getDescription(content || '') }}
-    ></div>
+      // dangerouslySetInnerHTML={{ __html: getDescription(content || '') }}
+    >
+      {ReactHtmlParser(getDescription(content || ''))}
+    </div>
     <div className={styles.extra}>
       <em>{moment(updatedAt).format('YYYY-MM-DD HH:MM:SS')}</em>
     </div>
