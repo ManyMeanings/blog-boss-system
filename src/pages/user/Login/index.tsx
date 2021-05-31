@@ -48,7 +48,6 @@ const Login: React.FC = () => {
 
   const handleSubmit = async (values: API.LoginParams) => {
     setSubmitting(true);
-
     try {
       // 登录
       const msg = await login({ ...values, type });
@@ -59,12 +58,10 @@ const Login: React.FC = () => {
         goto();
         return;
       } // 如果失败去设置用户错误信息
-
       setUserLoginState(msg);
     } catch (error) {
       message.error('登录失败，请重试！');
     }
-
     setSubmitting(false);
   };
 
