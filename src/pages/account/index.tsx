@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Space, Avatar } from 'antd';
+import { Button, message, Space, Avatar, Popconfirm } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -86,6 +86,7 @@ const Account: React.FC = () => {
   const [selectedRowsState, setSelectedRows] = useState<API.AccountListItem[]>([]);
   const [currentRow, setCurrentRow] = useState<API.AccountListItem>();
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [deleteConfirmVisible, setDeleteConfirmVisible] = useState<boolean>(false);
   const access = useAccess();
 
   const columns: ProColumns<API.AccountListItem>[] = [
@@ -170,15 +171,17 @@ const Account: React.FC = () => {
             >
               修改
             </a>,
-            <a
-              key="config"
-              onClick={() => {
+            <Popconfirm
+              title="确定进行删除操作？"
+              okText="是"
+              cancelText="否"
+              onConfirm={() => {
                 handleRemove([{ key: record.key }]);
                 actionRef.current?.reloadAndRest?.();
               }}
             >
-              删除
-            </a>,
+              <a key="config">删除</a>
+            </Popconfirm>,
           ];
         }
         return '无此权限';
@@ -229,12 +232,25 @@ const Account: React.FC = () => {
             </div>
           }
         >
-          <Button
-            type="primary"
-            onClick={async () => {
+          <Popconfirm
+            visible={deleteConfirmVisible}
+            title="确定进行删除操作？"
+            okText="是"
+            cancelText="否"
+            onConfirm={async () => {
               await handleRemove(selectedRowsState);
               setSelectedRows([]);
+              setDeleteConfirmVisible(false);
               actionRef.current?.reloadAndRest?.();
+            }}
+            onCancel={() => {
+              setDeleteConfirmVisible(false);
+            }}
+          ></Popconfirm>
+          <Button
+            type="primary"
+            onClick={() => {
+              setDeleteConfirmVisible(true);
             }}
           >
             批量删除
