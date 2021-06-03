@@ -30,12 +30,7 @@ const Content: React.FC = () => {
   return (
     <PageContainer>
       <Card loading={loading} style={{ marginBottom: '16px' }} title={article?.title || ''}>
-        <div
-          className="ql-editor"
-          // dangerouslySetInnerHTML={{ __html: article?.content || '' }}
-        >
-          {ReactHtmlParser(article?.content || '')}
-        </div>
+        <div className="ql-editor ql-snow">{ReactHtmlParser(article?.content || '')}</div>
       </Card>
     </PageContainer>
   );
