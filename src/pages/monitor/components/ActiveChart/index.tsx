@@ -50,7 +50,7 @@ export default class ActiveChart extends React.Component {
             this.loopData();
           },
         );
-      }, 2000);
+      }, 5000);
     });
   };
 

@@ -1,4 +1,4 @@
-const global = {
+let global = {
   money: 10115,
   user: 1234,
   percent: 65,
@@ -9,22 +9,27 @@ const global = {
   stress: 66,
 };
 
-const setGlobal = () => {
-  global.money += Math.floor(Math.random() * 100);
-  global.user += Math.floor(Math.random() * 10);
-  global.percent += Math.floor(Math.random() * 2);
-  global.goal1 += Math.floor(Math.random() * 4);
-  global.goal2 += Math.floor(Math.random() * 4);
-  global.goal3 += Math.floor(Math.random() * 4);
+const defaultGlobal = {
+  money: 10115,
+  user: 1234,
+  percent: 65,
+  goal1: 28,
+  goal2: 22,
+  goal3: 32,
+  remain: 34,
+  stress: 66,
+};
+
+const timer = setInterval(() => {
+  global.money = 10115 + Math.floor(Math.random() * 1000);
+  global.user = 1234 + Math.floor(Math.random() * 100);
+  global.percent = 65 + Math.floor(Math.random() * 20);
+  global.goal1 = 28 + Math.floor(Math.random() * 20);
+  global.goal2 = 32 + Math.floor(Math.random() * 20);
+  global.goal3 = 34 + Math.floor(Math.random() * 20);
   global.remain = 50 - Math.floor(Math.random() * 20);
   global.stress = 50 + Math.floor(Math.random() * 30);
-
-  const result = {
-    tags,
-    global,
-  };
-  return result;
-};
+}, 4000);
 
 const tags = [
   {
@@ -213,6 +218,11 @@ const tags = [
   },
 ];
 
+const data = {
+  tags,
+  global,
+};
+
 export default {
-  'GET  /api/monitor_chart_data': setGlobal(),
+  'GET  /api/monitor_chart_data': data,
 };

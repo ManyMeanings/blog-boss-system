@@ -9,7 +9,7 @@ import styles from './style.less';
 
 const { Countdown } = Statistic;
 
-const deadline = Date.now() + 1000 * 60 * 60 * 24 + 1000 * 30;
+const deadline = Date.now() + 1000 * 60 * 60 * 8 + 1000 * 30;
 
 const Monitor: React.FC = () => {
   const [data, setData] = useState<any>();
@@ -34,12 +34,18 @@ const Monitor: React.FC = () => {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      asyncFetch();
+      monitorChartData()
+        .then((json) => {
+          setData(json);
+        })
+        .catch(() => {
+          message.error('请求数据失败');
+        });
     }, 5000);
     intervalRef.current = timer;
     return () => {
       if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+        clearInterval(timer);
       }
     };
   });
