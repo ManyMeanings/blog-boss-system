@@ -9,17 +9,6 @@ let global = {
   stress: 66,
 };
 
-const defaultGlobal = {
-  money: 10115,
-  user: 1234,
-  percent: 65,
-  goal1: 28,
-  goal2: 22,
-  goal3: 32,
-  remain: 34,
-  stress: 66,
-};
-
 const timer = setInterval(() => {
   global.money = 10115 + Math.floor(Math.random() * 1000);
   global.user = 1234 + Math.floor(Math.random() * 100);
