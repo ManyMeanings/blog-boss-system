@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, Modal, Input, Select } from 'antd';
-import ReactQuill from './reactQuill';
+import ReactQuill from './ReactQuill';
 import 'react-quill/dist/quill.snow.css';
 import EditableTagGroup from './EditableTagGroup';
 
